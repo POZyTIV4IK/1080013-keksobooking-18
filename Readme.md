@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Темирлан Айткали](https://up.htmlacademy.ru/javascript/18/user/1080013).
-* Наставник: `Неизвестно`.
+* Наставник:  [Альбина Токарчук] (https://htmlacademy.ru/profile/id167491).
 
 ---
 
