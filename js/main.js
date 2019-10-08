@@ -16,10 +16,10 @@ var getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-var a = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var b = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var c = ['palace', 'flat', 'house', 'bungalo'];
-var d = ['12:00', '13:00', '14:00'];
+var optionChoice = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var gitImgLink = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var appartmentType = ['palace', 'flat', 'house', 'bungalo'];
+var checkTime = ['12:00', '13:00', '14:00'];
 
 
 var cards = [];
@@ -61,14 +61,14 @@ var createObjects = function () {
         title: 'Это заголовок',
         address: '600, 350',
         price: 100,
-        type: c[getRandomInteger(0, 4)],
+        type: appartmentType[getRandomInteger(0, 4)],
         rooms: 20 + ' комнат ',
         guests: 4 + ' гостя',
-        checkin: d[getRandomInteger(0, 3)] + ' въезд ',
-        checkout: d[getRandomInteger(0, 3)] + ' выезд',
-        features: a[getRandomInteger(0, 6)],
+        checkin: checkTime[getRandomInteger(0, 3)] + ' въезд ',
+        checkout: checkTime[getRandomInteger(0, 3)] + ' выезд',
+        features: optionChoice[getRandomInteger(0, 6)],
         description: 'Это опиание',
-        photos: b[getRandomInteger(0, 3)]
+        photos: gitImgLink[getRandomInteger(0, 3)]
       },
       location: {
         x: getRandomInteger(1, 1000),
