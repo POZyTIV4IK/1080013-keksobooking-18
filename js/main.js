@@ -84,6 +84,7 @@ var createCard = function () {
   createObjects();
   var fragment = document.createDocumentFragment();
   for (var k = 0; k < 8; k++) {
+    createElement(cards[k]);
     fragment.appendChild(createPin(cards[k]));
   }
   similarCardElement.appendChild(fragment);
