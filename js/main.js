@@ -1,8 +1,7 @@
 'use strict';
 
+var pinSize = 40;
 var userDialog = document.querySelector('.map');
-
-userDialog.classList.remove('map--faded');
 var similarCardElement = userDialog.querySelector('.map__pins');
 var similarCardTemplate = document.querySelector('#card')
     .content
@@ -12,17 +11,15 @@ var similarPinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
+var optionChoices = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var ImgLinks = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var apartmentTypes = ['palace', 'flat', 'house', 'bungalo'];
+var registrationTimes = ['12:00', '13:00', '14:00'];
+var cards = [];
+
 var getRandomInteger = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
-
-var optionChoice = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var gitImgLink = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var appartmentType = ['palace', 'flat', 'house', 'bungalo'];
-var checkTime = ['12:00', '13:00', '14:00'];
-
-
-var cards = [];
 
 var createElement = function (cardId) {
   var cardElement = similarCardTemplate.cloneNode(true);
@@ -41,9 +38,11 @@ var createElement = function (cardId) {
   return cardElement;
 };
 
+userDialog.classList.remove('map--faded');
+
 var createPin = function (cardNumber) {
   var cardPin = similarPinTemplate.cloneNode(true);
-  var allocate = 'left: ' + cardNumber.location.x + 'px; ' + 'top: ' + cardNumber.location.y + 'px;';
+  var allocate = 'left: ' + (cardNumber.location.x - pinSize / 2) + 'px; ' + 'top: ' + (cardNumber.location.y - pinSize) + 'px;';
   cardPin.style = allocate;
   cardPin.querySelector('img').src = cardNumber.author.avatar;
   cardPin.querySelector('img').alt = cardNumber.offer.title;
@@ -55,20 +54,20 @@ var createObjects = function () {
   for (var i = 0; i < 8; i++) {
     card[i] = {
       author: {
-        avatar: 'img/avatars/user' + '0' + getRandomInteger(1, 9) + '.png'
+        avatar: 'img/avatars/user' + '0' + (i + 1) + '.png'
       },
       offer: {
         title: 'Это заголовок',
         address: '600, 350',
         price: 100,
-        type: appartmentType[getRandomInteger(0, 4)],
+        type: apartmentTypes[getRandomInteger(0, 4)],
         rooms: 20 + ' комнат ',
         guests: 4 + ' гостя',
-        checkin: checkTime[getRandomInteger(0, 3)] + ' въезд ',
-        checkout: checkTime[getRandomInteger(0, 3)] + ' выезд',
-        features: optionChoice[getRandomInteger(0, 6)],
+        checkin: registrationTimes[getRandomInteger(0, 3)] + ' въезд ',
+        checkout: registrationTimes[getRandomInteger(0, 3)] + ' выезд',
+        features: optionChoices[getRandomInteger(0, 6)],
         description: 'Это опиание',
-        photos: gitImgLink[getRandomInteger(0, 3)]
+        photos: ImgLinks[getRandomInteger(0, 3)]
       },
       location: {
         x: getRandomInteger(1, 1000),
