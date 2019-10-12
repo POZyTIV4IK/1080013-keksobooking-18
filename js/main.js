@@ -57,16 +57,16 @@ var createObjects = function () {
         avatar: 'img/avatars/user' + '0' + (i + 1) + '.png'
       },
       offer: {
-        title: 'Это ',
-        address: '{{location.x}}, {{location.y}}',
+        title: 'Сдается квартира с хорошим месторасположением',
+        address: {},
         price: [getRandomInteger(0, 3000)],
         type: apartmentTypes[getRandomInteger(0, 4)],
         rooms: [getRandomInteger(0, 300)],
         guests: [getRandomInteger(0, 4)],
-        checkin: registrationTimes[getRandomInteger(0, 3)] + ' въезд ',
-        checkout: registrationTimes[getRandomInteger(0, 3)] + ' выезд',
+        checkin: registrationTimes[getRandomInteger(0, 3)],
+        checkout: registrationTimes[getRandomInteger(0, 3)],
         features: optionChoices[getRandomInteger(0, 6)],
-        description: 'Это описание',
+        description: 'Хорошая квартира с прекрасным видом',
         photos: imgLinks[getRandomInteger(0, 3)]
       },
       location: {
@@ -74,6 +74,7 @@ var createObjects = function () {
         y: getRandomInteger(130, 631)
       }
     };
+    card[i].offer.address = card[i].location;
     cards.push(card[i]);
   }
   return cards;
