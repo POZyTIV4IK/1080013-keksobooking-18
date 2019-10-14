@@ -51,7 +51,13 @@ var createPin = function (pinStructure) {
 
 var createObjects = function () {
   var card = {};
+  var SCREEN_MIN_WIDTH = 130;
+  var SCREEN_MAX_WIDTH = 631;
+  var SCREEN_MIN_HEIGHT = 1;
+  var SCREEN_MAX_HEIGHT = 1000;
   for (var i = 0; i < 8; i++) {
+    var locationX = getRandomInteger(SCREEN_MIN_HEIGHT, SCREEN_MAX_HEIGHT);
+    var locationY = getRandomInteger(SCREEN_MIN_WIDTH, SCREEN_MAX_WIDTH);
     card[i] = {
       author: {
         avatar: 'img/avatars/user' + '0' + (i + 1) + '.png'
@@ -70,11 +76,11 @@ var createObjects = function () {
         photos: imgLinks[getRandomInteger(0, 3)]
       },
       location: {
-        x: getRandomInteger(1, 1000),
-        y: getRandomInteger(130, 631)
+        x: locationX,
+        y: locationY
       }
     };
-    card[i].offer.address = card[i].location;
+    card[i].offer.address = card[i].location.x.toString() + ', ' + card[i].location.y.toString();
     cards.push(card[i]);
   }
   return cards;
