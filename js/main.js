@@ -1,6 +1,11 @@
 'use strict';
 
 var PIN_SIZE = 40;
+var PIN_NUMBER = 8;
+var SCREEN_MIN_WIDTH = 130;
+var SCREEN_MAX_WIDTH = 631;
+var SCREEN_MIN_HEIGHT = 1;
+var SCREEN_MAX_HEIGHT = 1000;
 var userDialog = document.querySelector('.map');
 var similarCardElement = userDialog.querySelector('.map__pins');
 var similarCardTemplate = document.querySelector('#card')
@@ -51,11 +56,7 @@ var createPin = function (pinStructure) {
 
 var createObjects = function () {
   var card = {};
-  var SCREEN_MIN_WIDTH = 130;
-  var SCREEN_MAX_WIDTH = 631;
-  var SCREEN_MIN_HEIGHT = 1;
-  var SCREEN_MAX_HEIGHT = 1000;
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < PIN_NUMBER; i++) {
     var locationX = getRandomInteger(SCREEN_MIN_HEIGHT, SCREEN_MAX_HEIGHT);
     var locationY = getRandomInteger(SCREEN_MIN_WIDTH, SCREEN_MAX_WIDTH);
     card[i] = {
@@ -64,7 +65,7 @@ var createObjects = function () {
       },
       offer: {
         title: 'Сдается квартира с хорошим месторасположением',
-        address: {},
+        address: locationX + ', ' + locationY,
         price: [getRandomInteger(0, 3000)],
         type: apartmentTypes[getRandomInteger(0, 4)],
         rooms: [getRandomInteger(0, 300)],
@@ -80,7 +81,6 @@ var createObjects = function () {
         y: locationY
       }
     };
-    card[i].offer.address = card[i].location.x.toString() + ', ' + card[i].location.y.toString();
     cards.push(card[i]);
   }
   return cards;
@@ -89,7 +89,7 @@ var createObjects = function () {
 var createCard = function () {
   createObjects();
   var fragment = document.createDocumentFragment();
-  for (var k = 0; k < 8; k++) {
+  for (var k = 0; k < PIN_NUMBER; k++) {
     createElement(cards[k]);
     fragment.appendChild(createPin(cards[k]));
   }
