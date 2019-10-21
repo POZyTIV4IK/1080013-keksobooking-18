@@ -117,7 +117,6 @@ var createPins = function () {
 };
 
 var createCards = function () {
-  createObjects();
   var fragment = document.createDocumentFragment();
   for (var k = 0; k < PIN_NUMBER; k++) {
     fragment.appendChild(createElement(cards[k]));
