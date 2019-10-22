@@ -117,6 +117,7 @@ var createPins = function () {
 };
 
 var createCards = function () {
+  createPins();
   var fragment = document.createDocumentFragment();
   for (var k = 0; k < PIN_NUMBER; k++) {
     fragment.appendChild(createElement(cards[k]));
@@ -124,5 +125,4 @@ var createCards = function () {
   userDialog.insertBefore(fragment, filtersContainer);
 };
 
-createPins();
 createCards();
