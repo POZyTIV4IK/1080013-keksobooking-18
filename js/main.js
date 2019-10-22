@@ -107,17 +107,8 @@ var createObjects = function () {
   return cards;
 };
 
-var createPins = function () {
-  createObjects();
-  var fragment = document.createDocumentFragment();
-  for (var k = 0; k < PIN_NUMBER; k++) {
-    fragment.appendChild(createPin(cards[k]));
-  }
-  similarCardElement.appendChild(fragment);
-};
-
 var createCards = function () {
-  createPins();
+  createObjects();
   var fragment = document.createDocumentFragment();
   for (var k = 0; k < PIN_NUMBER; k++) {
     fragment.appendChild(createElement(cards[k]));
@@ -125,4 +116,13 @@ var createCards = function () {
   userDialog.insertBefore(fragment, filtersContainer);
 };
 
+var createPins = function () {
+  var fragment = document.createDocumentFragment();
+  for (var k = 0; k < PIN_NUMBER; k++) {
+    fragment.appendChild(createPin(cards[k]));
+  }
+  similarCardElement.appendChild(fragment);
+};
+
 createCards();
+createPins();
