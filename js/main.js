@@ -9,8 +9,15 @@ var SCREEN_MAX_HEIGHT = 1000;
 var MAX_PRICE = 3000;
 var MAX_ROOMS = 10;
 var MAX_GUESTS = 4;
+var ENTER_KEYCODE = 13;
+var ARROW_SIZE = 20;
 var userDialog = document.querySelector('.map');
+var allInputs = document.querySelectorAll('input');
+var allSelects = document.querySelectorAll('select');
+var allFieldsets = document.querySelectorAll('fieldset');
+var addressInput = document.querySelector('input[name="address"]');
 var similarCardElement = userDialog.querySelector('.map__pins');
+var mainPin = document.querySelector('.map__pin--main');
 var filtersContainer = userDialog.querySelector('.map__filters-container');
 var similarCardTemplate = document.querySelector('#card')
     .content
@@ -49,8 +56,6 @@ var createElement = function (cardStructure) {
   cardElement.querySelector('.popup__photo').src = cardStructure.offer.photos;
   return cardElement;
 };
-
-userDialog.classList.remove('map--faded');
 
 var createPin = function (pinStructure) {
   var cardPin = similarPinTemplate.cloneNode(true);
@@ -126,3 +131,39 @@ var createPins = function () {
 
 createCards();
 createPins();
+
+
+var disableItem = function (input) {
+  for (var i = 0; i < input.length; i++) {
+    input[i].classList.add('disabled');
+  }
+};
+
+var actiavateItem = function (input) {
+  for (var i = 0; i < input.length; i++) {
+    input[i].classList.remove('disabled');
+  }
+};
+
+disableItem(allInputs);
+disableItem(allSelects);
+disableItem(allFieldsets);
+
+
+addressInput.value = mainPin.style.left + ' ' + mainPin.style.top;
+
+
+var activateMap = function () {
+  userDialog.classList.remove('map--faded');
+  actiavateItem(allInputs);
+  actiavateItem(allSelects);
+  actiavateItem(allFieldsets);
+  addressInput.value = parseInt(mainPin.style.left, 10) + ' ' + (parseInt(mainPin.style.top, 10) - ARROW_SIZE);
+};
+
+mainPin.addEventListener('mousedown', activateMap);
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activateMap();
+  }
+});
