@@ -18,6 +18,10 @@ var allFieldsets = document.querySelectorAll('fieldset');
 var addressInput = document.querySelector('input[name="address"]');
 var similarCardElement = userDialog.querySelector('.map__pins');
 var mainPin = document.querySelector('.map__pin--main');
+var roomsSelect = document.querySelector('select[name="rooms"]');
+var roomsSelectOption = roomsSelect.querySelectorAll('option');
+var guestsSelect = document.querySelector('select[name="capacity"]');
+var guestsSelectOption = guestsSelect.querySelectorAll('option');
 var filtersContainer = userDialog.querySelector('.map__filters-container');
 var similarCardTemplate = document.querySelector('#card')
     .content
@@ -149,9 +153,7 @@ disableItem(allInputs);
 disableItem(allSelects);
 disableItem(allFieldsets);
 
-
 addressInput.value = mainPin.style.left + ' ' + mainPin.style.top;
-
 
 var activateMap = function () {
   userDialog.classList.remove('map--faded');
@@ -165,5 +167,16 @@ mainPin.addEventListener('mousedown', activateMap);
 mainPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     activateMap();
+  }
+});
+
+guestsSelect.addEventListener('input', function (evt) {
+  var guestsNumber = guestsSelect.value;
+  var roomsNumber = roomsSelect.value;
+  var target = evt.target;
+  if (roomsNumber < guestsNumber) {
+    target.setCustomValidity('Количество гостей больше чем количество комнат');
+  } else {
+    target.setCustomValidity('');
   }
 });
