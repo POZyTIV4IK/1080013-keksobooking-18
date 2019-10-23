@@ -19,9 +19,7 @@ var addressInput = document.querySelector('input[name="address"]');
 var similarCardElement = userDialog.querySelector('.map__pins');
 var mainPin = document.querySelector('.map__pin--main');
 var roomsSelect = document.querySelector('select[name="rooms"]');
-var roomsSelectOption = roomsSelect.querySelectorAll('option');
 var guestsSelect = document.querySelector('select[name="capacity"]');
-var guestsSelectOption = guestsSelect.querySelectorAll('option');
 var filtersContainer = userDialog.querySelector('.map__filters-container');
 var similarCardTemplate = document.querySelector('#card')
     .content
