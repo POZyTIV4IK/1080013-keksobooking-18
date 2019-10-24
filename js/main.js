@@ -11,16 +11,16 @@ var MAX_ROOMS = 10;
 var MAX_GUESTS = 4;
 var ENTER_KEYCODE = 13;
 var ARROW_SIZE = 20;
-var userDialog = document.querySelector('.map');
+var map = document.querySelector('.map');
 var allInputs = document.querySelectorAll('input');
 var allSelects = document.querySelectorAll('select');
 var allFieldsets = document.querySelectorAll('fieldset');
 var addressInput = document.querySelector('input[name="address"]');
-var similarCardElement = userDialog.querySelector('.map__pins');
-var mainPin = document.querySelector('.map__pin--main');
+var similarCardElement = map.querySelector('.map__pins');
+var mainPin = similarCardElement.querySelector('.map__pin--main');
 var roomsSelect = document.querySelector('select[name="rooms"]');
 var guestsSelect = document.querySelector('select[name="capacity"]');
-var filtersContainer = userDialog.querySelector('.map__filters-container');
+var filtersContainer = map.querySelector('.map__filters-container');
 var similarCardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card');
@@ -120,7 +120,7 @@ var createCards = function () {
   for (var k = 0; k < PIN_NUMBER; k++) {
     fragment.appendChild(createElement(cards[k]));
   }
-  userDialog.insertBefore(fragment, filtersContainer);
+  map.insertBefore(fragment, filtersContainer);
 };
 
 var createPins = function () {
@@ -134,16 +134,15 @@ var createPins = function () {
 createCards();
 createPins();
 
-
 var disableItem = function (input) {
   for (var i = 0; i < input.length; i++) {
-    input[i].classList.add('disabled');
+    input[i].disabled = true;
   }
 };
 
-var actiavateItem = function (input) {
+var activateItem = function (input) {
   for (var i = 0; i < input.length; i++) {
-    input[i].classList.remove('disabled');
+    input[i].removeAttribute('disabled');
   }
 };
 
@@ -151,14 +150,18 @@ disableItem(allInputs);
 disableItem(allSelects);
 disableItem(allFieldsets);
 
-addressInput.value = mainPin.style.left + ' ' + mainPin.style.top;
+var defaultAddress = function () {
+  addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + parseInt(mainPin.style.top, 10);
+};
+
+defaultAddress();
 
 var activateMap = function () {
-  userDialog.classList.remove('map--faded');
-  actiavateItem(allInputs);
-  actiavateItem(allSelects);
-  actiavateItem(allFieldsets);
-  addressInput.value = parseInt(mainPin.style.left, 10) + ' ' + (parseInt(mainPin.style.top, 10) - ARROW_SIZE);
+  map.classList.remove('map--faded');
+  activateItem(allInputs);
+  activateItem(allSelects);
+  activateItem(allFieldsets);
+  addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + (parseInt(mainPin.style.top, 10) - ARROW_SIZE);
 };
 
 mainPin.addEventListener('mousedown', activateMap);
@@ -168,13 +171,16 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 });
 
-guestsSelect.addEventListener('input', function (evt) {
+var checkGuestsNumberValidity = function (item) {
   var guestsNumber = guestsSelect.value;
   var roomsNumber = roomsSelect.value;
-  var target = evt.target;
   if (roomsNumber < guestsNumber) {
-    target.setCustomValidity('Количество гостей больше чем количество комнат');
+    item.setCustomValidity('Количество гостей больше, чем количество комнат');
   } else {
-    target.setCustomValidity('');
+    item.setCustomValidity('');
   }
+};
+
+guestsSelect.addEventListener('input', function (evt) {
+  checkGuestsNumberValidity(evt.target);
 });
