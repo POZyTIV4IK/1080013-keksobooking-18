@@ -11,6 +11,7 @@ var MAX_ROOMS = 10;
 var MAX_GUESTS = 4;
 var ENTER_KEYCODE = 13;
 var ARROW_SIZE = 20;
+var MAX_ROOMS_NUMBER = 100;
 var map = document.querySelector('.map');
 var choiceForm = document.querySelector('.ad-form');
 var allFieldsets = choiceForm.querySelectorAll('fieldset');
@@ -140,6 +141,7 @@ var disablePage = function (input) {
     input[i].disabled = true;
   }
   mapFilters.style.pointerEvents = 'none';
+  choiceForm.style.pointerEvents = 'none';
 };
 
 var activatePage = function (input) {
@@ -147,6 +149,7 @@ var activatePage = function (input) {
     input[i].removeAttribute('disabled');
   }
   mapFilters.style.pointerEvents = '';
+  choiceForm.style.pointerEvents = '';
 };
 
 disablePage(allFieldsets);
@@ -160,8 +163,8 @@ defaultAddress();
 var activateMap = function () {
   map.classList.remove('map--faded');
   activatePage(allFieldsets);
-  addressInput.setAttribute('disabled', '');
   addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + (parseInt(mainPin.style.top, 10) - ARROW_SIZE);
+  choiceForm.classList.remove('ad-form--disabled');
 };
 
 mainPin.addEventListener('mousedown', activateMap);
@@ -172,23 +175,19 @@ mainPin.addEventListener('keydown', function (evt) {
 });
 
 var checkGuestsNumberValidity = function (item) {
-  var guestsNumber = parseInt(guestsSelect.value, 10);
-  for (var i = 0; i < roomsSelect.length; i++) {
-    roomsSelect[3].setAttribute('disabled', '');
-    if (parseInt(roomsSelect[i].value, 10) < guestsNumber) {
-      roomsSelect[i].setAttribute('disabled', '');
+  var roomsNumber = parseInt(roomsSelect.value, 10);
+  for (var i = 0; i < guestsSelect.length; i++) {
+    if (parseInt(guestsSelect[i].value, 10) < roomsNumber) {
+      guestsSelect[i].setAttribute('disabled', '');
       item.setCustomValidity('Количество гостей больше, чем количество комнат');
-    } else if (guestsNumber === 0) {
-      if (parseInt(roomsSelect[i].value, 10) < 10) {
-        roomsSelect[i].setAttribute('disabled', '');
-      } else {
-        roomsSelect[i].removeAttribute('disabled', '');
-      }
+    }
+    if (roomsNumber === MAX_ROOMS_NUMBER) {
+      guestsSelect[3].removeAttribute('disabled', '');
     }
   }
 };
 
-guestsSelect.addEventListener('change', function (evt) {
-  activatePage(roomsSelect);
+roomsSelect.addEventListener('change', function (evt) {
+  activatePage(guestsSelect);
   checkGuestsNumberValidity(evt.target);
 });
