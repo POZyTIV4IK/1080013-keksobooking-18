@@ -21,7 +21,6 @@ var guestsSelect = choiceForm.querySelector('select[name="capacity"]');
 var similarCardElement = map.querySelector('.map__pins');
 var filtersContainer = map.querySelector('.map__filters-container');
 var mainPin = similarCardElement.querySelector('.map__pin--main');
-var mapFilters = filtersContainer.querySelector('.map__filters');
 
 var similarCardTemplate = document.querySelector('#card')
     .content
@@ -140,16 +139,12 @@ var disablePage = function (input) {
   for (var i = 0; i < input.length; i++) {
     input[i].disabled = true;
   }
-  mapFilters.style.pointerEvents = 'none';
-  choiceForm.style.pointerEvents = 'none';
 };
 
 var activatePage = function (input) {
   for (var i = 0; i < input.length; i++) {
     input[i].removeAttribute('disabled');
   }
-  mapFilters.style.pointerEvents = '';
-  choiceForm.style.pointerEvents = '';
 };
 
 disablePage(allFieldsets);
@@ -174,20 +169,20 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 });
 
-var checkGuestsNumberValidity = function (item) {
+var checkGuestsNumberValidity = function () {
   var roomsNumber = parseInt(roomsSelect.value, 10);
+  guestsSelect[3].setAttribute('disabled', '');
   for (var i = 0; i < guestsSelect.length; i++) {
-    if (parseInt(guestsSelect[i].value, 10) < roomsNumber) {
+    if (parseInt(guestsSelect[i].value, 10) > roomsNumber) {
       guestsSelect[i].setAttribute('disabled', '');
-      item.setCustomValidity('Количество гостей больше, чем количество комнат');
-    }
-    if (roomsNumber === MAX_ROOMS_NUMBER) {
+    } else if (roomsNumber === MAX_ROOMS_NUMBER) {
+      guestsSelect[i].setAttribute('disabled', '');
       guestsSelect[3].removeAttribute('disabled', '');
     }
   }
 };
 
-roomsSelect.addEventListener('change', function (evt) {
+roomsSelect.addEventListener('change', function () {
   activatePage(guestsSelect);
-  checkGuestsNumberValidity(evt.target);
+  checkGuestsNumberValidity();
 });
