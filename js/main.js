@@ -9,9 +9,19 @@ var SCREEN_MAX_HEIGHT = 1000;
 var MAX_PRICE = 3000;
 var MAX_ROOMS = 10;
 var MAX_GUESTS = 4;
-var userDialog = document.querySelector('.map');
-var similarCardElement = userDialog.querySelector('.map__pins');
-var filtersContainer = userDialog.querySelector('.map__filters-container');
+var ENTER_KEYCODE = 13;
+var ARROW_SIZE = 20;
+var MAX_ROOMS_NUMBER = 100;
+var map = document.querySelector('.map');
+var choiceForm = document.querySelector('.ad-form');
+var allFieldsets = choiceForm.querySelectorAll('fieldset');
+var addressInput = choiceForm.querySelector('input[name="address"]');
+var roomsSelect = choiceForm.querySelector('select[name="rooms"]');
+var guestsSelect = choiceForm.querySelector('select[name="capacity"]');
+var similarCardElement = map.querySelector('.map__pins');
+var filtersContainer = map.querySelector('.map__filters-container');
+var mainPin = similarCardElement.querySelector('.map__pin--main');
+
 var similarCardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card');
@@ -49,8 +59,6 @@ var createElement = function (cardStructure) {
   cardElement.querySelector('.popup__photo').src = cardStructure.offer.photos;
   return cardElement;
 };
-
-userDialog.classList.remove('map--faded');
 
 var createPin = function (pinStructure) {
   var cardPin = similarPinTemplate.cloneNode(true);
@@ -113,7 +121,7 @@ var createCards = function () {
   for (var k = 0; k < PIN_NUMBER; k++) {
     fragment.appendChild(createElement(cards[k]));
   }
-  userDialog.insertBefore(fragment, filtersContainer);
+  map.insertBefore(fragment, filtersContainer);
 };
 
 var createPins = function () {
@@ -126,3 +134,55 @@ var createPins = function () {
 
 createCards();
 createPins();
+
+var disablePage = function (input) {
+  for (var i = 0; i < input.length; i++) {
+    input[i].disabled = true;
+  }
+};
+
+var activatePage = function (input) {
+  for (var i = 0; i < input.length; i++) {
+    input[i].removeAttribute('disabled');
+  }
+};
+
+disablePage(allFieldsets);
+
+var defaultAddress = function () {
+  addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + parseInt(mainPin.style.top, 10);
+};
+
+defaultAddress();
+
+var activateMap = function () {
+  map.classList.remove('map--faded');
+  activatePage(allFieldsets);
+  addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + (parseInt(mainPin.style.top, 10) - ARROW_SIZE);
+  choiceForm.classList.remove('ad-form--disabled');
+};
+
+mainPin.addEventListener('mousedown', activateMap);
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activateMap();
+  }
+});
+
+var checkGuestsNumberValidity = function () {
+  var roomsNumber = parseInt(roomsSelect.value, 10);
+  guestsSelect[3].setAttribute('disabled', '');
+  for (var i = 0; i < guestsSelect.length; i++) {
+    if (parseInt(guestsSelect[i].value, 10) > roomsNumber) {
+      guestsSelect[i].setAttribute('disabled', '');
+    } else if (roomsNumber === MAX_ROOMS_NUMBER) {
+      guestsSelect[i].setAttribute('disabled', '');
+      guestsSelect[3].removeAttribute('disabled', '');
+    }
+  }
+};
+
+roomsSelect.addEventListener('change', function () {
+  activatePage(guestsSelect);
+  checkGuestsNumberValidity();
+});

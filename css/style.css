@@ -359,6 +359,7 @@ fieldset {
 
 .map--faded .map__filters {
   opacity: 0;
+  pointer-events: none;
 }
 
 .map__filter {
@@ -502,6 +503,7 @@ fieldset {
 
 .ad-form--disabled {
   opacity: 0.3;
+  pointer-events: none;
 }
 
 .ad-form-header {
