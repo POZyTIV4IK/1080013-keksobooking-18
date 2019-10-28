@@ -10,6 +10,7 @@ var MAX_PRICE = 3000;
 var MAX_ROOMS = 10;
 var MAX_GUESTS = 4;
 var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
 var ARROW_SIZE = 20;
 var MAX_ROOMS_NUMBER = 100;
 var map = document.querySelector('.map');
@@ -115,6 +116,13 @@ var createObjects = function () {
   return cards;
 };
 
+var mapCardHidden = function () {
+  var mapCard = document.querySelectorAll('.map__card');
+  for (var j = 0; j < PIN_NUMBER; j++) {
+    mapCard[j].classList.add('hidden');
+  }
+};
+
 var createCards = function () {
   createObjects();
   var fragment = document.createDocumentFragment();
@@ -122,6 +130,7 @@ var createCards = function () {
     fragment.appendChild(createElement(cards[k]));
   }
   map.insertBefore(fragment, filtersContainer);
+  mapCardHidden();
 };
 
 var createPins = function () {
@@ -135,9 +144,36 @@ var createPins = function () {
 createCards();
 createPins();
 
+similarCardElement.addEventListener('click', function (evt) {
+  var mapPin = document.querySelectorAll('.map__pin');
+  var mapCard = document.querySelectorAll('.map__card');
+  for (var i = 0; i < PIN_NUMBER; i++) {
+    mapCard[i].classList.add('hidden');
+    if (evt.target === mapPin[i + 1]) {
+      mapCard[i].classList.remove('hidden');
+    }
+  }
+});
+
+var closeCard = function () {
+  var cardClose = document.querySelectorAll('.popup__close');
+  for (var i = 0; i < PIN_NUMBER; i++) {
+    cardClose[i].addEventListener('click', mapCardHidden);
+  }
+};
+
+closeCard();
+
+map.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    mapCardHidden();
+  }
+});
+
+
 var disablePage = function (input) {
   for (var i = 0; i < input.length; i++) {
-    input[i].disabled = true;
+    input[i].setAttribute('disabled', '');
   }
 };
 
