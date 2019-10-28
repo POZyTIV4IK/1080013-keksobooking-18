@@ -19,6 +19,10 @@ var allFieldsets = choiceForm.querySelectorAll('fieldset');
 var addressInput = choiceForm.querySelector('input[name="address"]');
 var roomsSelect = choiceForm.querySelector('select[name="rooms"]');
 var guestsSelect = choiceForm.querySelector('select[name="capacity"]');
+var priceInput = choiceForm.querySelector('input[name="price"]');
+var apartmentSelect = choiceForm.querySelector('select[name="type"]');
+var timeIn = choiceForm.querySelector('select[name="timein"]');
+var timeOut = choiceForm.querySelector('select[name="timeout"]');
 var similarCardElement = map.querySelector('.map__pins');
 var filtersContainer = map.querySelector('.map__filters-container');
 var mainPin = similarCardElement.querySelector('.map__pin--main');
@@ -221,4 +225,52 @@ var checkGuestsNumberValidity = function () {
 roomsSelect.addEventListener('change', function () {
   activatePage(guestsSelect);
   checkGuestsNumberValidity();
+});
+
+apartmentSelect.addEventListener('change', function (evt) {
+  if (evt.target.value === 'bungalo') {
+    priceInput.placeholder = '0';
+    priceInput.min = '0';
+  } else if (evt.target.value === 'flat') {
+    priceInput.placeholder = '1000';
+    priceInput.min = '1000';
+  } else if (evt.target.value === 'house') {
+    priceInput.placeholder = '5000';
+    priceInput.min = '5000';
+  } else if (evt.target.value === 'palace') {
+    priceInput.placeholder = '10000';
+    priceInput.min = '10000';
+  }
+});
+
+timeIn.addEventListener('change', function (evt) {
+  if (evt.target.value === '12:00') {
+    timeOut[0].removeAttribute('disabled', '');
+    timeOut[1].setAttribute('disabled', '');
+    timeOut[2].setAttribute('disabled', '');
+  } else if (evt.target.value === '13:00') {
+    timeOut[0].setAttribute('disabled', '');
+    timeOut[1].removeAttribute('disabled', '');
+    timeOut[2].setAttribute('disabled', '');
+  } else if (evt.target.value === '14:00') {
+    timeOut[0].setAttribute('disabled', '');
+    timeOut[1].setAttribute('disabled', '');
+    timeOut[2].removeAttribute('disabled', '');
+  }
+});
+
+timeOut.addEventListener('change', function (evt) {
+  if (evt.target.value === '12:00') {
+    timeIn[0].removeAttribute('disabled', '');
+    timeIn[1].setAttribute('disabled', '');
+    timeIn[2].setAttribute('disabled', '');
+  } else if (evt.target.value === '13:00') {
+    timeIn[0].setAttribute('disabled', '');
+    timeIn[1].removeAttribute('disabled', '');
+    timeIn[2].setAttribute('disabled', '');
+  } else if (evt.target.value === '14:00') {
+    timeIn[0].setAttribute('disabled', '');
+    timeIn[1].setAttribute('disabled', '');
+    timeIn[2].removeAttribute('disabled', '');
+  }
 });
