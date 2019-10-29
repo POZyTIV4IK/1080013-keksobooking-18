@@ -10,6 +10,7 @@ var MAX_PRICE = 3000;
 var MAX_ROOMS = 10;
 var MAX_GUESTS = 4;
 var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
 var ARROW_SIZE = 20;
 var MAX_ROOMS_NUMBER = 100;
 var map = document.querySelector('.map');
@@ -18,6 +19,10 @@ var allFieldsets = choiceForm.querySelectorAll('fieldset');
 var addressInput = choiceForm.querySelector('input[name="address"]');
 var roomsSelect = choiceForm.querySelector('select[name="rooms"]');
 var guestsSelect = choiceForm.querySelector('select[name="capacity"]');
+var priceInput = choiceForm.querySelector('input[name="price"]');
+var apartmentSelect = choiceForm.querySelector('select[name="type"]');
+var timeIn = choiceForm.querySelector('select[name="timein"]');
+var timeOut = choiceForm.querySelector('select[name="timeout"]');
 var similarCardElement = map.querySelector('.map__pins');
 var filtersContainer = map.querySelector('.map__filters-container');
 var mainPin = similarCardElement.querySelector('.map__pin--main');
@@ -115,6 +120,13 @@ var createObjects = function () {
   return cards;
 };
 
+var mapCardHidden = function () {
+  var mapCard = map.querySelectorAll('.map__card');
+  for (var j = 0; j < PIN_NUMBER; j++) {
+    mapCard[j].classList.add('hidden');
+  }
+};
+
 var createCards = function () {
   createObjects();
   var fragment = document.createDocumentFragment();
@@ -122,6 +134,7 @@ var createCards = function () {
     fragment.appendChild(createElement(cards[k]));
   }
   map.insertBefore(fragment, filtersContainer);
+  mapCardHidden();
 };
 
 var createPins = function () {
@@ -135,19 +148,50 @@ var createPins = function () {
 createCards();
 createPins();
 
-var disablePage = function (input) {
-  for (var i = 0; i < input.length; i++) {
-    input[i].disabled = true;
+var showPinCard = function (item) {
+  var mapPin = similarCardElement.querySelectorAll('.map__pin');
+  var mapCard = map.querySelectorAll('.map__card');
+  for (var i = 0; i < PIN_NUMBER; i++) {
+    mapCard[i].classList.add('hidden');
+    if (item === mapPin[i + 1]) {
+      mapCard[i].classList.remove('hidden');
+    }
   }
 };
 
-var activatePage = function (input) {
+similarCardElement.addEventListener('click', function (evt) {
+  showPinCard(evt.target);
+});
+
+var closeCard = function () {
+  var cardClose = map.querySelectorAll('.popup__close');
+  for (var i = 0; i < PIN_NUMBER; i++) {
+    cardClose[i].addEventListener('click', mapCardHidden);
+  }
+};
+
+closeCard();
+
+map.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    mapCardHidden();
+  }
+});
+
+
+var disablePageItem = function (input) {
+  for (var i = 0; i < input.length; i++) {
+    input[i].setAttribute('disabled', '');
+  }
+};
+
+var activatePageItem = function (input) {
   for (var i = 0; i < input.length; i++) {
     input[i].removeAttribute('disabled');
   }
 };
 
-disablePage(allFieldsets);
+disablePageItem(allFieldsets);
 
 var defaultAddress = function () {
   addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + parseInt(mainPin.style.top, 10);
@@ -157,7 +201,7 @@ defaultAddress();
 
 var activateMap = function () {
   map.classList.remove('map--faded');
-  activatePage(allFieldsets);
+  activatePageItem(allFieldsets);
   addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + (parseInt(mainPin.style.top, 10) - ARROW_SIZE);
   choiceForm.classList.remove('ad-form--disabled');
 };
@@ -182,7 +226,39 @@ var checkGuestsNumberValidity = function () {
   }
 };
 
-roomsSelect.addEventListener('change', function () {
-  activatePage(guestsSelect);
-  checkGuestsNumberValidity();
+roomsSelect.addEventListener('change', function (evt) {
+  activatePageItem(guestsSelect);
+  checkGuestsNumberValidity(evt.target);
+});
+
+apartmentSelect.addEventListener('change', function (evt) {
+  if (evt.target.value === 'bungalo') {
+    priceInput.placeholder = '0';
+    priceInput.min = '0';
+  } else if (evt.target.value === 'flat') {
+    priceInput.placeholder = '1000';
+    priceInput.min = '1000';
+  } else if (evt.target.value === 'house') {
+    priceInput.placeholder = '5000';
+    priceInput.min = '5000';
+  } else if (evt.target.value === 'palace') {
+    priceInput.placeholder = '10000';
+    priceInput.min = '10000';
+  }
+});
+
+var assignTimeValue = function (itemIn, itemOut) {
+  for (var i = 0; i < itemIn.length; i++) {
+    if (itemIn.selectedIndex === i) {
+      itemOut.selectedIndex = i;
+    }
+  }
+};
+
+timeIn.addEventListener('change', function (evt) {
+  assignTimeValue(evt.target, timeOut);
+});
+
+timeOut.addEventListener('change', function (evt) {
+  assignTimeValue(evt.target, timeIn);
 });
