@@ -121,7 +121,7 @@ var createObjects = function () {
 };
 
 var mapCardHidden = function () {
-  var mapCard = document.querySelectorAll('.map__card');
+  var mapCard = map.querySelectorAll('.map__card');
   for (var j = 0; j < PIN_NUMBER; j++) {
     mapCard[j].classList.add('hidden');
   }
@@ -148,19 +148,23 @@ var createPins = function () {
 createCards();
 createPins();
 
-similarCardElement.addEventListener('click', function (evt) {
-  var mapPin = document.querySelectorAll('.map__pin');
-  var mapCard = document.querySelectorAll('.map__card');
+var showPinCard = function (item) {
+  var mapPin = similarCardElement.querySelectorAll('.map__pin');
+  var mapCard = map.querySelectorAll('.map__card');
   for (var i = 0; i < PIN_NUMBER; i++) {
     mapCard[i].classList.add('hidden');
-    if (evt.target === mapPin[i + 1]) {
+    if (item === mapPin[i + 1]) {
       mapCard[i].classList.remove('hidden');
     }
   }
+};
+
+similarCardElement.addEventListener('click', function (evt) {
+  showPinCard(evt.target);
 });
 
 var closeCard = function () {
-  var cardClose = document.querySelectorAll('.popup__close');
+  var cardClose = map.querySelectorAll('.popup__close');
   for (var i = 0; i < PIN_NUMBER; i++) {
     cardClose[i].addEventListener('click', mapCardHidden);
   }
@@ -175,19 +179,19 @@ map.addEventListener('keydown', function (evt) {
 });
 
 
-var disablePage = function (input) {
+var disablePageItem = function (input) {
   for (var i = 0; i < input.length; i++) {
     input[i].setAttribute('disabled', '');
   }
 };
 
-var activatePage = function (input) {
+var activatePageItem = function (input) {
   for (var i = 0; i < input.length; i++) {
     input[i].removeAttribute('disabled');
   }
 };
 
-disablePage(allFieldsets);
+disablePageItem(allFieldsets);
 
 var defaultAddress = function () {
   addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + parseInt(mainPin.style.top, 10);
@@ -197,7 +201,7 @@ defaultAddress();
 
 var activateMap = function () {
   map.classList.remove('map--faded');
-  activatePage(allFieldsets);
+  activatePageItem(allFieldsets);
   addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + (parseInt(mainPin.style.top, 10) - ARROW_SIZE);
   choiceForm.classList.remove('ad-form--disabled');
 };
@@ -222,9 +226,9 @@ var checkGuestsNumberValidity = function () {
   }
 };
 
-roomsSelect.addEventListener('change', function () {
-  activatePage(guestsSelect);
-  checkGuestsNumberValidity();
+roomsSelect.addEventListener('change', function (evt) {
+  activatePageItem(guestsSelect);
+  checkGuestsNumberValidity(evt.target);
 });
 
 apartmentSelect.addEventListener('change', function (evt) {
@@ -243,34 +247,18 @@ apartmentSelect.addEventListener('change', function (evt) {
   }
 });
 
-timeIn.addEventListener('change', function (evt) {
-  if (evt.target.value === '12:00') {
-    timeOut[0].removeAttribute('disabled', '');
-    timeOut[1].setAttribute('disabled', '');
-    timeOut[2].setAttribute('disabled', '');
-  } else if (evt.target.value === '13:00') {
-    timeOut[0].setAttribute('disabled', '');
-    timeOut[1].removeAttribute('disabled', '');
-    timeOut[2].setAttribute('disabled', '');
-  } else if (evt.target.value === '14:00') {
-    timeOut[0].setAttribute('disabled', '');
-    timeOut[1].setAttribute('disabled', '');
-    timeOut[2].removeAttribute('disabled', '');
+var assignTimeValue = function (itemIn, itemOut) {
+  for (var i = 0; i < itemIn.length; i++) {
+    if (itemIn.selectedIndex === i) {
+      itemOut.selectedIndex = i;
+    }
   }
+};
+
+timeIn.addEventListener('change', function (evt) {
+  assignTimeValue(evt.target, timeOut);
 });
 
 timeOut.addEventListener('change', function (evt) {
-  if (evt.target.value === '12:00') {
-    timeIn[0].removeAttribute('disabled', '');
-    timeIn[1].setAttribute('disabled', '');
-    timeIn[2].setAttribute('disabled', '');
-  } else if (evt.target.value === '13:00') {
-    timeIn[0].setAttribute('disabled', '');
-    timeIn[1].removeAttribute('disabled', '');
-    timeIn[2].setAttribute('disabled', '');
-  } else if (evt.target.value === '14:00') {
-    timeIn[0].setAttribute('disabled', '');
-    timeIn[1].setAttribute('disabled', '');
-    timeIn[2].removeAttribute('disabled', '');
-  }
+  assignTimeValue(evt.target, timeIn);
 });
