@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var getRandomInteger = function (min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  };
   window.utils = {
     PIN_SIZE: 40,
     PIN_NUMBER: 8,
@@ -14,6 +17,7 @@
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13,
     ARROW_SIZE: 20,
-    MAX_ROOMS_NUMBER: 100
+    MAX_ROOMS_NUMBER: 100,
+    getRandomInteger: getRandomInteger
   };
 })();

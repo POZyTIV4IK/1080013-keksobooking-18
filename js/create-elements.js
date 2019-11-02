@@ -36,12 +36,10 @@
     return cardPin;
   };
 
-  window.createElement = {
-    mapCardHidden: function () {
-      var mapCard = map.querySelectorAll('.map__card');
-      for (var j = 0; j < window.utils.PIN_NUMBER; j++) {
-        mapCard[j].classList.add('hidden');
-      }
+  var mapCardHidden = function () {
+    var mapCard = map.querySelectorAll('.map__card');
+    for (var j = 0; j < window.utils.PIN_NUMBER; j++) {
+      mapCard[j].classList.add('hidden');
     }
   };
 
@@ -52,7 +50,7 @@
       fragment.appendChild(createItem(window.createMock.cards[k]));
     }
     map.insertBefore(fragment, filtersContainer);
-    window.createElement.mapCardHidden();
+    mapCardHidden();
   };
 
   var createPins = function () {
@@ -65,4 +63,8 @@
 
   createCards();
   createPins();
+
+  window.createElement = {
+    mapCardHidden: mapCardHidden
+  };
 })();

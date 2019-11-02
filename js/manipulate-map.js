@@ -20,10 +20,6 @@
     }
   };
 
-  window.manipulateMap = {
-    activatePageItem: activatePageItem
-  };
-
   disablePageItem(allFieldsets);
 
   var defaultAddress = function () {
@@ -45,5 +41,9 @@
       activateMap();
     }
   });
+
+  window.manipulateMap = {
+    activatePageItem: activatePageItem
+  };
 
 })();
