@@ -29,8 +29,8 @@
   var createObjects = function () {
     var card = {};
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      var locationX = window.utils.getRandomInteger(window.utils.SCREEN_MIN_HEIGHT, window.utils.SCREEN_MAX_HEIGHT);
-      var locationY = window.utils.getRandomInteger(window.utils.SCREEN_MIN_WIDTH, window.utils.SCREEN_MAX_WIDTH);
+      var locationX = window.utils.getRandomInteger(window.utils.SCREEN_MIN_WIDTH, window.utils.SCREEN_MAX_WIDTH);
+      var locationY = window.utils.getRandomInteger(window.utils.SCREEN_MIN_HEIGHT, window.utils.SCREEN_MAX_HEIGHT);
       card[i] = {
         author: {
           avatar: 'img/avatars/user' + '0' + (i + 1) + '.png'
