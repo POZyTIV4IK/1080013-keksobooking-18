@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" max="1000000" step="500" required>
+          <input id="price" name="price" type="number" placeholder="5000" max="1000000" step="500" min="5000" required>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -248,6 +248,11 @@
     </div>
   </template>
 
-  <script src="js/main.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/create-mock.js"></script>
+  <script src="js/create-elements.js"></script>
+  <script src="js/manipulate-card.js"></script>
+  <script src="js/manipulate-map.js"></script>
+  <script src="js/form-validity.js"></script>
 </body>
 </html>
