@@ -23,7 +23,7 @@
   disablePageItem(allFieldsets);
 
   var defaultAddress = function () {
-    addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + parseInt(mainPin.style.top, 10);
+    addressInput.value = parseInt(mainPin.style.left, 10) + window.utils.ARROW_WIDTH + ', ' + parseInt(mainPin.style.top, 10);
   };
 
   defaultAddress();
@@ -56,12 +56,16 @@
         y: moveEvt.clientY
       };
 
-      if ((((mainPin.offsetLeft - shift.x) <= (map.clientWidth - window.utils.ARROW_WIDTH_SIZE)) && ((mainPin.offsetLeft - shift.x) >= 0)) &&
-      ((mainPin.offsetTop - shift.y) >= 130 && (mainPin.offsetTop - shift.y) <= 630)) {
-        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      var leftRestriction = -window.utils.ARROW_WIDTH;
+      var rightRestriction = map.clientWidth + leftRestriction;
+
+      if ((mainPin.offsetLeft - shift.x) <= rightRestriction && (mainPin.offsetLeft - shift.x) >= leftRestriction) {
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-        addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + parseInt(mainPin.style.top, 10);
       }
+      if ((mainPin.offsetTop - shift.y) >= window.utils.SCREEN_MIN_HEIGHT && (mainPin.offsetTop - shift.y) <= window.utils.SCREEN_MAX_HEIGHT) {
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      }
+      addressInput.value = parseInt(mainPin.style.left, 10) + window.utils.ARROW_WIDTH + ', ' + parseInt(mainPin.style.top, 10);
     };
 
     var onMouseUp = function (upEvt) {
