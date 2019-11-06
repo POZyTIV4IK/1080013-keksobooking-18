@@ -22,8 +22,9 @@
 
   disablePageItem(allFieldsets);
 
+  var mainPinMerge = Math.round((mainPin.clientWidth / 2));
   var defaultAddress = function () {
-    addressInput.value = parseInt(mainPin.style.left, 10) + window.utils.ARROW_WIDTH + ', ' + parseInt(mainPin.style.top, 10);
+    addressInput.value = parseInt(mainPin.style.left, 10) + mainPinMerge + ', ' + parseInt(mainPin.style.top, 10);
   };
 
   defaultAddress();
@@ -56,16 +57,17 @@
         y: moveEvt.clientY
       };
 
-      var leftRestriction = -window.utils.ARROW_WIDTH;
-      var rightRestriction = map.clientWidth + leftRestriction;
+      var rightRestriction = window.utils.clientWidth - mainPinMerge;
+      var xAxisDisplacement = mainPin.offsetLeft - shift.x;
+      var yAxisDisplacement = mainPin.offsetTop - shift.y;
 
-      if ((mainPin.offsetLeft - shift.x) <= rightRestriction && (mainPin.offsetLeft - shift.x) >= leftRestriction) {
-        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      if (xAxisDisplacement <= rightRestriction && xAxisDisplacement >= -mainPinMerge) {
+        mainPin.style.left = xAxisDisplacement + 'px';
       }
-      if ((mainPin.offsetTop - shift.y) >= window.utils.SCREEN_MIN_HEIGHT && (mainPin.offsetTop - shift.y) <= window.utils.SCREEN_MAX_HEIGHT) {
-        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      if (yAxisDisplacement >= window.utils.SCREEN_MIN_HEIGHT && yAxisDisplacement <= window.utils.SCREEN_MAX_HEIGHT) {
+        mainPin.style.top = yAxisDisplacement + 'px';
       }
-      addressInput.value = parseInt(mainPin.style.left, 10) + window.utils.ARROW_WIDTH + ', ' + parseInt(mainPin.style.top, 10);
+      addressInput.value = parseInt(mainPin.style.left, 10) + mainPinMerge + ', ' + parseInt(mainPin.style.top, 10);
     };
 
     var onMouseUp = function (upEvt) {

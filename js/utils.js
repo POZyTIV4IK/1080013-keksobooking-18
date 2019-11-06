@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var map = document.querySelector('.map');
   var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   };
@@ -15,8 +16,8 @@
     MAX_GUESTS: 4,
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13,
-    ARROW_WIDTH: 33,
     MAX_ROOMS_NUMBER: 100,
-    getRandomInteger: getRandomInteger
+    getRandomInteger: getRandomInteger,
+    clientWidth: map.clientWidth
   };
 })();
