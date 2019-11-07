@@ -5,6 +5,7 @@
   var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   };
+  var clientWidth = map.clientWidth;
   window.utils = {
     PIN_SIZE: 40,
     PIN_NUMBER: 8,
@@ -18,6 +19,6 @@
     ENTER_KEYCODE: 13,
     MAX_ROOMS_NUMBER: 100,
     getRandomInteger: getRandomInteger,
-    clientWidth: map.clientWidth
+    clientWidth: clientWidth
   };
 })();
