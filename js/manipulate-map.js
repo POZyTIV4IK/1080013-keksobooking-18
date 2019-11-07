@@ -22,8 +22,9 @@
 
   disablePageItem(allFieldsets);
 
+  var mainPinHalfWidth = Math.round((mainPin.clientWidth / 2));
   var defaultAddress = function () {
-    addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + parseInt(mainPin.style.top, 10);
+    addressInput.value = parseInt(mainPin.style.left, 10) + mainPinHalfWidth + ', ' + parseInt(mainPin.style.top, 10);
   };
 
   defaultAddress();
@@ -31,11 +32,56 @@
   var activateMap = function () {
     map.classList.remove('map--faded');
     activatePageItem(allFieldsets);
-    addressInput.value = parseInt(mainPin.style.left, 10) + ', ' + (parseInt(mainPin.style.top, 10) - window.utils.ARROW_SIZE);
     choiceForm.classList.remove('ad-form--disabled');
   };
 
-  mainPin.addEventListener('mousedown', activateMap);
+  mainPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    activateMap();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      var rightRestriction = window.utils.clientWidth - mainPinHalfWidth;
+      var xAxisDisplacement = mainPin.offsetLeft - shift.x;
+      var yAxisDisplacement = mainPin.offsetTop - shift.y;
+
+      if (xAxisDisplacement <= rightRestriction && xAxisDisplacement >= -mainPinHalfWidth) {
+        mainPin.style.left = xAxisDisplacement + 'px';
+      }
+      if (yAxisDisplacement >= window.utils.SCREEN_MIN_HEIGHT && yAxisDisplacement <= window.utils.SCREEN_MAX_HEIGHT) {
+        mainPin.style.top = yAxisDisplacement + 'px';
+      }
+      addressInput.value = parseInt(mainPin.style.left, 10) + mainPinHalfWidth + ', ' + parseInt(mainPin.style.top, 10);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.utils.ENTER_KEYCODE) {
       activateMap();
