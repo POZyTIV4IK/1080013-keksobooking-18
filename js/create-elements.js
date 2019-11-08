@@ -60,7 +60,9 @@
   var createCards = function (cards) {
     var fragment = document.createDocumentFragment();
     for (var k = 0; k < window.utils.PIN_NUMBER; k++) {
-      fragment.appendChild(createItem(cards[k]));
+      if (Object.entries(cards[k].offer).length !== 0) {
+        fragment.appendChild(createItem(cards[k]));
+      }
     }
     map.insertBefore(fragment, filtersContainer);
     mapCardHidden();
@@ -69,7 +71,9 @@
   var createPins = function (cards) {
     var fragment = document.createDocumentFragment();
     for (var k = 0; k < window.utils.PIN_NUMBER; k++) {
-      fragment.appendChild(createPin(cards[k]));
+      if (Object.entries(cards[k].offer).length !== 0) {
+        fragment.appendChild(createPin(cards[k]));
+      }
     }
     similarCardElement.appendChild(fragment);
     mapPinHidden();
