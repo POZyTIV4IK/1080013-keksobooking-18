@@ -1,9 +1,16 @@
 'use strict';
 
 (function () {
+  var errorTemplate = document.querySelector('#error')
+      .content
+      .querySelector('.error');
   var map = document.querySelector('.map');
   var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+  };
+  var createError = function () {
+    var errorAlert = errorTemplate.cloneNode(true);
+    map.appendChild(errorAlert);
   };
   var clientWidth = map.clientWidth;
   window.utils = {
@@ -19,6 +26,7 @@
     ENTER_KEYCODE: 13,
     MAX_ROOMS_NUMBER: 100,
     getRandomInteger: getRandomInteger,
-    clientWidth: clientWidth
+    clientWidth: clientWidth,
+    createError: createError
   };
 })();

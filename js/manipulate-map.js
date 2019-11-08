@@ -20,6 +20,13 @@
     }
   };
 
+  var activateMapPins = function () {
+    var mapCard = map.querySelectorAll('.map__pin');
+    for (var j = 1; j <= window.utils.PIN_NUMBER; j++) {
+      mapCard[j].classList.remove('hidden');
+    }
+  };
+
   disablePageItem(allFieldsets);
 
   var mainPinHalfWidth = Math.round((mainPin.clientWidth / 2));
@@ -31,6 +38,7 @@
 
   var activateMap = function () {
     map.classList.remove('map--faded');
+    activateMapPins();
     activatePageItem(allFieldsets);
     choiceForm.classList.remove('ad-form--disabled');
   };

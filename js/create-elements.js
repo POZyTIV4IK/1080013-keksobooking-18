@@ -25,9 +25,10 @@
     cardElement.querySelector('.popup__description').textContent = cardStructure.offer.description;
     for (var i = 0; i < cardStructure.offer.photos.length; i++) {
       var fragment = document.createDocumentFragment();
-      var para = fragment.appendChild(cardElement.querySelector('.popup__photo').cloneNode(true));
-      para.src = cardStructure.offer.photos[i];
-      cardElement.querySelector('.popup__photos').appendChild(para);
+      var imageLayout = cardElement.querySelector('.popup__photo').cloneNode(true);
+      var realImages = fragment.appendChild(imageLayout);
+      realImages.src = cardStructure.offer.photos[i];
+      cardElement.querySelector('.popup__photos').appendChild(realImages);
     }
     cardElement.querySelector('.popup__photo').parentNode.removeChild(cardElement.querySelector('.popup__photo'));
     return cardElement;
@@ -49,6 +50,13 @@
     }
   };
 
+  var mapPinHidden = function () {
+    var mapCard = map.querySelectorAll('.map__pin');
+    for (var j = 1; j <= window.utils.PIN_NUMBER; j++) {
+      mapCard[j].classList.add('hidden');
+    }
+  };
+
   var createCards = function (cards) {
     var fragment = document.createDocumentFragment();
     for (var k = 0; k < window.utils.PIN_NUMBER; k++) {
@@ -64,15 +72,11 @@
       fragment.appendChild(createPin(cards[k]));
     }
     similarCardElement.appendChild(fragment);
+    mapPinHidden();
   };
 
-  window.backend.load(createCards, function () {
-    console.log('error');
-  });
-
-  window.backend.load(createPins, function () {
-    console.log('error');
-  });
+  window.backend.load(createCards, window.utils.createError);
+  window.backend.load(createPins, window.utils.createError);
 
   window.createElement = {
     mapCardHidden: mapCardHidden
