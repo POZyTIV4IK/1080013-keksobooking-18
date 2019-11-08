@@ -26,7 +26,7 @@
     }
   };
 
-  closeCard();
+  setTimeout(closeCard, 1000);
 
   map.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
