@@ -18,7 +18,6 @@
       } else if (roomsNumber === window.utils.MAX_ROOMS_NUMBER) {
         guestsSelect[i].setAttribute('disabled', '');
         guestsSelect[3].removeAttribute('disabled', '');
-        guestsSelect[3].setAttribute('selected', '');
       }
     }
   };

@@ -45,23 +45,23 @@
 
   var mapCardHidden = function () {
     var mapCard = map.querySelectorAll('.map__card');
-    for (var j = 0; j < window.utils.PIN_NUMBER; j++) {
-      mapCard[j].classList.add('hidden');
+    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+      mapCard[i].classList.add('hidden');
     }
   };
 
   var mapPinHidden = function () {
     var mapCard = map.querySelectorAll('.map__pin');
-    for (var j = 1; j <= window.utils.PIN_NUMBER; j++) {
-      mapCard[j].classList.add('hidden');
+    for (var i = 1; i <= window.utils.PIN_NUMBER; i++) {
+      mapCard[i].classList.add('hidden');
     }
   };
 
   var createCards = function (cards) {
     var fragment = document.createDocumentFragment();
-    for (var k = 0; k < window.utils.PIN_NUMBER; k++) {
-      if (Object.entries(cards[k].offer).length !== 0) {
-        fragment.appendChild(createItem(cards[k]));
+    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+      if (Object.entries(cards[i].offer).length !== 0) {
+        fragment.appendChild(createItem(cards[i]));
       }
     }
     map.insertBefore(fragment, filtersContainer);
@@ -70,9 +70,9 @@
 
   var createPins = function (cards) {
     var fragment = document.createDocumentFragment();
-    for (var k = 0; k < window.utils.PIN_NUMBER; k++) {
-      if (Object.entries(cards[k].offer).length !== 0) {
-        fragment.appendChild(createPin(cards[k]));
+    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+      if (Object.entries(cards[i].offer).length !== 0) {
+        fragment.appendChild(createPin(cards[i]));
       }
     }
     similarCardElement.appendChild(fragment);

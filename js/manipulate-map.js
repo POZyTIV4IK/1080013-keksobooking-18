@@ -22,8 +22,8 @@
 
   var activateMapPins = function () {
     var mapCard = map.querySelectorAll('.map__pin');
-    for (var j = 1; j <= window.utils.PIN_NUMBER; j++) {
-      mapCard[j].classList.remove('hidden');
+    for (var i = 1; i <= window.utils.PIN_NUMBER; i++) {
+      mapCard[i].classList.remove('hidden');
     }
   };
 
