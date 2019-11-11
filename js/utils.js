@@ -8,12 +8,14 @@
   var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   };
-  var createError = function () {
+  var onError = function () {
     var errorAlert = errorTemplate.cloneNode(true);
     map.appendChild(errorAlert);
   };
   var clientWidth = map.clientWidth;
   window.utils = {
+    SUCCESS_STATUS: 200,
+    TIMEOUT: 10000,
     PIN_SIZE: 40,
     PIN_NUMBER: 8,
     SCREEN_MIN_WIDTH: 1,
@@ -27,6 +29,6 @@
     MAX_ROOMS_NUMBER: 100,
     getRandomInteger: getRandomInteger,
     clientWidth: clientWidth,
-    createError: createError
+    onError: onError
   };
 })();

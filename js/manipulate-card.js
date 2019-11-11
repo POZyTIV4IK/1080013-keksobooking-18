@@ -22,7 +22,7 @@
   var closeCard = function () {
     var cardClose = map.querySelectorAll('.popup__close');
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      cardClose[i].addEventListener('click', window.createElement.mapCardHidden);
+      cardClose[i].addEventListener('click', window.createElement.mapCardHide);
     }
   };
 
@@ -30,7 +30,7 @@
 
   map.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.utils.ESC_KEYCODE) {
-      window.createElement.mapCardHidden();
+      window.createElement.mapCardHide();
     }
   });
 

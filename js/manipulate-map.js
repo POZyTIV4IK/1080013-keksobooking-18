@@ -21,8 +21,8 @@
   };
 
   var activateMapPins = function () {
-    var mapCard = map.querySelectorAll('.map__pin');
-    for (var i = 1; i <= window.utils.PIN_NUMBER; i++) {
+    var mapCard = map.querySelectorAll('.map__pin__advert');
+    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       mapCard[i].classList.remove('hidden');
     }
   };

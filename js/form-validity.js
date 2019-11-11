@@ -9,6 +9,15 @@
   var timeIn = choiceForm.querySelector('select[name="timein"]');
   var timeOut = choiceForm.querySelector('select[name="timeout"]');
 
+
+  var disableAtMapActivation = function () {
+    guestsSelect[0].setAttribute('disabled', '');
+    guestsSelect[1].setAttribute('disabled', '');
+    guestsSelect[3].setAttribute('disabled', '');
+  };
+
+  disableAtMapActivation();
+
   var checkGuestsNumberValidity = function () {
     var roomsNumber = parseInt(roomsSelect.value, 10);
     guestsSelect[3].setAttribute('disabled', '');
@@ -18,6 +27,10 @@
       } else if (roomsNumber === window.utils.MAX_ROOMS_NUMBER) {
         guestsSelect[i].setAttribute('disabled', '');
         guestsSelect[3].removeAttribute('disabled', '');
+        guestsSelect[3].setAttribute('selected', '');
+      } else {
+        guestsSelect[3].removeAttribute('selected', '');
+        guestsSelect[2].setAttribute('selected', '');
       }
     }
   };

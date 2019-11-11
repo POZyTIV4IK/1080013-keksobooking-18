@@ -36,24 +36,24 @@
 
   var createPin = function (pinStructure) {
     var cardPin = similarPinTemplate.cloneNode(true);
-    var allocate = 'left: ' + (pinStructure.location.x - window.utils.PIN_SIZE / 2) + 'px; ' + 'top: ' + (pinStructure.location.y - window.utils.PIN_SIZE) + 'px;';
-    cardPin.style = allocate;
+    cardPin.style = 'left: ' + (pinStructure.location.x - window.utils.PIN_SIZE / 2) + 'px; ' + 'top: ' + (pinStructure.location.y - window.utils.PIN_SIZE) + 'px;';
     cardPin.querySelector('img').src = pinStructure.author.avatar;
     cardPin.querySelector('img').alt = pinStructure.offer.title;
+    cardPin.classList.add('map__pin__advert');
     return cardPin;
   };
 
-  var mapCardHidden = function () {
+  var mapCardHide = function () {
     var mapCard = map.querySelectorAll('.map__card');
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       mapCard[i].classList.add('hidden');
     }
   };
 
-  var mapPinHidden = function () {
-    var mapCard = map.querySelectorAll('.map__pin');
-    for (var i = 1; i <= window.utils.PIN_NUMBER; i++) {
-      mapCard[i].classList.add('hidden');
+  var mapPinHide = function () {
+    var mapPin = map.querySelectorAll('.map__pin__advert');
+    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+      mapPin[i].classList.add('hidden');
     }
   };
 
@@ -65,7 +65,7 @@
       }
     }
     map.insertBefore(fragment, filtersContainer);
-    mapCardHidden();
+    mapCardHide();
   };
 
   var createPins = function (cards) {
@@ -76,13 +76,13 @@
       }
     }
     similarCardElement.appendChild(fragment);
-    mapPinHidden();
+    mapPinHide();
   };
 
-  window.backend.load(createCards, window.utils.createError);
-  window.backend.load(createPins, window.utils.createError);
+  window.backend.load(createCards, window.utils.onError);
+  window.backend.load(createPins, window.utils.onError);
 
   window.createElement = {
-    mapCardHidden: mapCardHidden
+    mapCardHide: mapCardHide
   };
 })();
