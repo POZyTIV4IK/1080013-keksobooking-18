@@ -14,6 +14,7 @@
 
   var createItem = function (cardStructure) {
     var cardElement = similarCardTemplate.cloneNode(true);
+    var popupPhoto = cardElement.querySelector('.popup__photo');
     cardElement.querySelector('.popup__avatar').src = cardStructure.author.avatar;
     cardElement.querySelector('.popup__title').textContent = cardStructure.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = cardStructure.offer.address;
@@ -23,14 +24,16 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardStructure.offer.checkin + ', выезд до ' + cardStructure.offer.checkout;
     cardElement.querySelector('.popup__features').textContent = cardStructure.offer.features;
     cardElement.querySelector('.popup__description').textContent = cardStructure.offer.description;
+
     for (var i = 0; i < cardStructure.offer.photos.length; i++) {
       var fragment = document.createDocumentFragment();
-      var imageLayout = cardElement.querySelector('.popup__photo').cloneNode(true);
+      var imageLayout = popupPhoto.cloneNode(true);
       var realImages = fragment.appendChild(imageLayout);
       realImages.src = cardStructure.offer.photos[i];
       cardElement.querySelector('.popup__photos').appendChild(realImages);
     }
-    cardElement.querySelector('.popup__photo').parentNode.removeChild(cardElement.querySelector('.popup__photo'));
+
+    popupPhoto.parentNode.removeChild(popupPhoto);
     return cardElement;
   };
 
@@ -39,25 +42,25 @@
     cardPin.style = 'left: ' + (pinStructure.location.x - window.utils.PIN_SIZE / 2) + 'px; ' + 'top: ' + (pinStructure.location.y - window.utils.PIN_SIZE) + 'px;';
     cardPin.querySelector('img').src = pinStructure.author.avatar;
     cardPin.querySelector('img').alt = pinStructure.offer.title;
-    cardPin.classList.add('map__pin__advert');
+    cardPin.classList.add('map__pin-advert');
     return cardPin;
   };
 
-  var mapCardHide = function () {
-    var mapCard = map.querySelectorAll('.map__card');
+  var hideCardsOnMap = function () {
+    var mapAdvertCards = map.querySelectorAll('.map__card');
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      mapCard[i].classList.add('hidden');
+      mapAdvertCards[i].classList.add('hidden');
     }
   };
 
-  var mapPinHide = function () {
-    var mapPin = map.querySelectorAll('.map__pin__advert');
+  var hidePinsOnMap = function () {
+    var mapAdvertPins = map.querySelectorAll('.map__pin-advert');
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      mapPin[i].classList.add('hidden');
+      mapAdvertPins[i].classList.add('hidden');
     }
   };
 
-  var createCards = function (cards) {
+  var renderCardsOnMap = function (cards) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       if (Object.entries(cards[i].offer).length !== 0) {
@@ -65,10 +68,10 @@
       }
     }
     map.insertBefore(fragment, filtersContainer);
-    mapCardHide();
+    hideCardsOnMap();
   };
 
-  var createPins = function (cards) {
+  var renderPinsOnMap = function (cards) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       if (Object.entries(cards[i].offer).length !== 0) {
@@ -76,13 +79,13 @@
       }
     }
     similarCardElement.appendChild(fragment);
-    mapPinHide();
+    hidePinsOnMap();
   };
 
-  window.backend.load(createCards, window.utils.onError);
-  window.backend.load(createPins, window.utils.onError);
+  window.backend.load(renderCardsOnMap, window.utils.onError);
+  window.backend.load(renderPinsOnMap, window.utils.onError);
 
   window.createElement = {
-    mapCardHide: mapCardHide
+    hideCardsOnMap: hideCardsOnMap
   };
 })();

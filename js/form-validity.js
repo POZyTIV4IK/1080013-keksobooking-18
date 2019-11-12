@@ -10,13 +10,13 @@
   var timeOut = choiceForm.querySelector('select[name="timeout"]');
 
 
-  var disableAtMapActivation = function () {
+  var disableOnMapActivation = function () {
     guestsSelect[0].setAttribute('disabled', '');
     guestsSelect[1].setAttribute('disabled', '');
     guestsSelect[3].setAttribute('disabled', '');
   };
 
-  disableAtMapActivation();
+  disableOnMapActivation();
 
   var checkGuestsNumberValidity = function () {
     var roomsNumber = parseInt(roomsSelect.value, 10);

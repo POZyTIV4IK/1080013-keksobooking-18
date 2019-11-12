@@ -21,9 +21,9 @@
   };
 
   var activateMapPins = function () {
-    var mapCard = map.querySelectorAll('.map__pin__advert');
+    var mapAdvertPins = map.querySelectorAll('.map__pin-advert');
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      mapCard[i].classList.remove('hidden');
+      mapAdvertPins[i].classList.remove('hidden');
     }
   };
 
@@ -91,7 +91,7 @@
 
 
   mainPin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.ENTER_KEYCODE) {
+    if (evt.key === window.utils.ENTER_KEYCODE) {
       activateMap();
     }
   });
