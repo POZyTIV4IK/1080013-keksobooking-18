@@ -90,12 +90,15 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-
-  mainPin.addEventListener('keydown', function (evt) {
+  var onMainPinEnterPress = function (evt) {
     if (evt.key === window.utils.ENTER_KEY) {
       activateMap();
     }
-  });
+
+    mainPin.removeEventListener('keydown', onMainPinEnterPress);
+  };
+
+  mainPin.addEventListener('keydown', onMainPinEnterPress);
 
   window.manipulateMap = {
     activatePageItem: activatePageItem
