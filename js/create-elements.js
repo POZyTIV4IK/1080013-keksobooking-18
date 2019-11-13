@@ -4,6 +4,7 @@
   var map = document.querySelector('.map');
   var filtersContainer = map.querySelector('.map__filters-container');
   var advertPinsContainer = map.querySelector('.map__pins');
+  var fragment = document.createDocumentFragment();
   var advertModalWindowTemplate = document.querySelector('#card')
       .content
       .querySelector('.map__card');
@@ -27,7 +28,6 @@
     cardElement.querySelector('.popup__description').textContent = cardStructure.offer.description;
 
     for (var i = 0; i < cardStructure.offer.photos.length; i++) {
-      var fragment = document.createDocumentFragment();
       var imageLayout = popupPhoto.cloneNode(true);
       var realImages = fragment.appendChild(imageLayout);
       realImages.src = cardStructure.offer.photos[i];
@@ -58,26 +58,22 @@
     }
   };
 
-  var renderAdvertCardsOnMap = function (cards) {
-    var fragment = document.createDocumentFragment();
-
+  var render = function (item, itemStructureGenerator) {
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      if (Object.entries(cards[i].offer).length !== 0) {
-        fragment.appendChild(createAdvertCardStructure(cards[i]));
+      if (Object.entries(item[i].offer).length !== 0) {
+        fragment.appendChild(itemStructureGenerator(item[i]));
       }
     }
+  };
+
+  var renderAdvertCardsOnMap = function (cards) {
+    render(cards, createAdvertCardStructure);
     map.insertBefore(fragment, filtersContainer);
     hideAdvertElementsOnMap('.map__card');
   };
 
   var renderAdvertPinsOnMap = function (cards) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      if (Object.entries(cards[i].offer).length !== 0) {
-        fragment.appendChild(createAdvertPinStructure(cards[i]));
-      }
-    }
+    render(cards, createAdvertPinStructure);
     advertPinsContainer.appendChild(fragment);
     hideAdvertElementsOnMap('.map__pin-advert');
   };
