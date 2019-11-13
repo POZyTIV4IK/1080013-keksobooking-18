@@ -2,11 +2,11 @@
 
 (function () {
   var map = document.querySelector('.map');
-  var advertTag = map.querySelector('.map__pins');
+  var advertPinsContainer = map.querySelector('.map__pins');
   var choiceForm = document.querySelector('.ad-form');
   var allFieldsets = choiceForm.querySelectorAll('fieldset');
   var addressInput = choiceForm.querySelector('input[name="address"]');
-  var mainPin = advertTag.querySelector('.map__pin--main');
+  var mainPin = advertPinsContainer.querySelector('.map__pin--main');
 
   var disablePageItem = function (input) {
     for (var i = 0; i < input.length; i++) {
@@ -22,6 +22,7 @@
 
   var activateMapPins = function () {
     var mapAdvertPins = map.querySelectorAll('.map__pin-advert');
+
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       mapAdvertPins[i].classList.remove('hidden');
     }

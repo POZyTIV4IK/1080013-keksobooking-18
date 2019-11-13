@@ -20,7 +20,9 @@
 
   var checkGuestsNumberValidity = function () {
     var roomsNumber = parseInt(roomsSelect.value, 10);
+
     guestsSelect[3].setAttribute('disabled', '');
+
     for (var i = 0; i < guestsSelect.length; i++) {
       guestsSelect[i].removeAttribute('selected', '');
       if (parseInt(guestsSelect[i].value, 10) > roomsNumber) {

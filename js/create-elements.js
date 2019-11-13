@@ -3,7 +3,7 @@
 (function () {
   var map = document.querySelector('.map');
   var filtersContainer = map.querySelector('.map__filters-container');
-  var advertTag = map.querySelector('.map__pins');
+  var advertPinsContainer = map.querySelector('.map__pins');
   var advertModalWindowTemplate = document.querySelector('#card')
       .content
       .querySelector('.map__card');
@@ -35,20 +35,24 @@
     }
 
     popupPhoto.parentNode.removeChild(popupPhoto);
+
     return cardElement;
   };
 
   var createAdvertPinStructure = function (pinStructure) {
     var cardPin = similarPinTemplate.cloneNode(true);
+
     cardPin.style = 'left: ' + (pinStructure.location.x - window.utils.PIN_SIZE / 2) + 'px; ' + 'top: ' + (pinStructure.location.y - window.utils.PIN_SIZE) + 'px;';
     cardPin.querySelector('img').src = pinStructure.author.avatar;
     cardPin.querySelector('img').alt = pinStructure.offer.title;
     cardPin.classList.add('map__pin-advert');
+
     return cardPin;
   };
 
   var hideAdvertCardsOnMap = function () {
     var mapAdvertCards = map.querySelectorAll('.map__card');
+
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       mapAdvertCards[i].classList.add('hidden');
     }
@@ -56,6 +60,7 @@
 
   var hideAdvertPinsOnMap = function () {
     var mapAdvertPins = map.querySelectorAll('.map__pin-advert');
+
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       mapAdvertPins[i].classList.add('hidden');
     }
@@ -63,6 +68,7 @@
 
   var renderAdvertCardsOnMap = function (cards) {
     var fragment = document.createDocumentFragment();
+
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       if (Object.entries(cards[i].offer).length !== 0) {
         fragment.appendChild(createAdvertCardStructure(cards[i]));
@@ -74,12 +80,13 @@
 
   var renderAdvertPinsOnMap = function (cards) {
     var fragment = document.createDocumentFragment();
+
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       if (Object.entries(cards[i].offer).length !== 0) {
         fragment.appendChild(createAdvertPinStructure(cards[i]));
       }
     }
-    advertTag.appendChild(fragment);
+    advertPinsContainer.appendChild(fragment);
     hideAdvertPinsOnMap();
   };
 
