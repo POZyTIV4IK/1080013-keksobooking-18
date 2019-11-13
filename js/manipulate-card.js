@@ -20,9 +20,9 @@
   });
 
   var closeCard = function () {
-    var onСardsCloseButtonsClick = map.querySelectorAll('.popup__close');
+    var onCardsCloseButtonsClick = map.querySelectorAll('.popup__close');
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      onСardsCloseButtonsClick[i].addEventListener('click', window.createElements.hideAdvertCardsOnMap);
+      onCardsCloseButtonsClick[i].addEventListener('click', window.createElements.hideAdvertCardsOnMap);
     }
   };
 
