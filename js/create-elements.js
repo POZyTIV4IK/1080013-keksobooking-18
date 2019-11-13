@@ -58,7 +58,7 @@
     }
   };
 
-  var render = function (item, itemStructureGenerator) {
+  var renderItem = function (item, itemStructureGenerator) {
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
       if (Object.entries(item[i].offer).length !== 0) {
         fragment.appendChild(itemStructureGenerator(item[i]));
@@ -67,13 +67,13 @@
   };
 
   var renderAdvertCardsOnMap = function (cards) {
-    render(cards, createAdvertCardStructure);
+    renderItem(cards, createAdvertCardStructure);
     map.insertBefore(fragment, filtersContainer);
     hideAdvertElementsOnMap('.map__card');
   };
 
   var renderAdvertPinsOnMap = function (cards) {
-    render(cards, createAdvertPinStructure);
+    renderItem(cards, createAdvertPinStructure);
     advertPinsContainer.appendChild(fragment);
     hideAdvertElementsOnMap('.map__pin-advert');
   };
