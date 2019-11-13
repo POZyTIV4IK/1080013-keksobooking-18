@@ -5,6 +5,7 @@
   var TIMEOUT = 10000;
   var URL = 'https://js.dump.academy/keksobooking/data';
   var load = function (onLoad, onError) {
+
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 

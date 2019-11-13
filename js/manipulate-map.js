@@ -2,11 +2,11 @@
 
 (function () {
   var map = document.querySelector('.map');
-  var similarCardElement = map.querySelector('.map__pins');
+  var advertTag = map.querySelector('.map__pins');
   var choiceForm = document.querySelector('.ad-form');
   var allFieldsets = choiceForm.querySelectorAll('fieldset');
   var addressInput = choiceForm.querySelector('input[name="address"]');
-  var mainPin = similarCardElement.querySelector('.map__pin--main');
+  var mainPin = advertTag.querySelector('.map__pin--main');
 
   var disablePageItem = function (input) {
     for (var i = 0; i < input.length; i++) {
@@ -91,7 +91,7 @@
 
 
   mainPin.addEventListener('keydown', function (evt) {
-    if (evt.key === window.utils.ENTER_KEYCODE) {
+    if (evt.key === window.utils.ENTER_KEY) {
       activateMap();
     }
   });
