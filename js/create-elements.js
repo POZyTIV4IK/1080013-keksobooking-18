@@ -50,19 +50,11 @@
     return cardPin;
   };
 
-  var hideAdvertCardsOnMap = function () {
-    var mapAdvertCards = map.querySelectorAll('.map__card');
+  var hideAdvertElementsOnMap = function (elementClass) {
+    var mapElementCards = map.querySelectorAll(elementClass);
 
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      mapAdvertCards[i].classList.add('hidden');
-    }
-  };
-
-  var hideAdvertPinsOnMap = function () {
-    var mapAdvertPins = map.querySelectorAll('.map__pin-advert');
-
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      mapAdvertPins[i].classList.add('hidden');
+      mapElementCards[i].classList.add('hidden');
     }
   };
 
@@ -75,7 +67,7 @@
       }
     }
     map.insertBefore(fragment, filtersContainer);
-    hideAdvertCardsOnMap();
+    hideAdvertElementsOnMap('.map__card');
   };
 
   var renderAdvertPinsOnMap = function (cards) {
@@ -87,13 +79,13 @@
       }
     }
     advertPinsContainer.appendChild(fragment);
-    hideAdvertPinsOnMap();
+    hideAdvertElementsOnMap('.map__pin-advert');
   };
 
   window.backend.load(renderAdvertCardsOnMap, window.utils.onError);
   window.backend.load(renderAdvertPinsOnMap, window.utils.onError);
 
   window.createElements = {
-    hideAdvertCardsOnMap: hideAdvertCardsOnMap
+    hideAdvertElementsOnMap: hideAdvertElementsOnMap
   };
 })();

@@ -24,7 +24,9 @@
     var onCardsCloseButtonsClick = map.querySelectorAll('.popup__close');
 
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      onCardsCloseButtonsClick[i].addEventListener('click', window.createElements.hideAdvertCardsOnMap);
+      onCardsCloseButtonsClick[i].addEventListener('click', function () {
+        window.createElements.hideAdvertElementsOnMap('.map__card');
+      });
     }
   };
 
@@ -32,7 +34,7 @@
 
   map.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ESC_KEY) {
-      window.createElements.hideAdvertCardsOnMap();
+      window.createElements.hideAdvertElementsOnMap('.map__card');
     }
   });
 
