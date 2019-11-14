@@ -9,7 +9,7 @@
       .content
       .querySelector('.map__card');
 
-  var similarPinTemplate = document.querySelector('#pin')
+  var advertPinTemplate = document.querySelector('#pin')
       .content
       .querySelector('.map__pin');
 
@@ -40,7 +40,7 @@
   };
 
   var createAdvertPinStructure = function (pinStructure) {
-    var cardPin = similarPinTemplate.cloneNode(true);
+    var cardPin = advertPinTemplate.cloneNode(true);
 
     cardPin.style = 'left: ' + (pinStructure.location.x - window.utils.PIN_SIZE / 2) + 'px; ' + 'top: ' + (pinStructure.location.y - window.utils.PIN_SIZE) + 'px;';
     cardPin.querySelector('img').src = pinStructure.author.avatar;
