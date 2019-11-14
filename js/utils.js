@@ -1,11 +1,21 @@
 'use strict';
 
 (function () {
+  var errorTemplate = document.querySelector('#error')
+      .content
+      .querySelector('.error');
   var map = document.querySelector('.map');
+  var clientWidth = map.clientWidth;
+
   var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   };
-  var clientWidth = map.clientWidth;
+
+  var onError = function () {
+    var errorAlert = errorTemplate.cloneNode(true);
+    map.appendChild(errorAlert);
+  };
+
   window.utils = {
     PIN_SIZE: 40,
     PIN_NUMBER: 8,
@@ -15,10 +25,11 @@
     MAX_PRICE: 3000,
     MAX_ROOMS: 10,
     MAX_GUESTS: 4,
-    ESC_KEYCODE: 27,
-    ENTER_KEYCODE: 13,
+    ESC_KEY: 'Escape',
+    ENTER_KEY: 'Enter',
     MAX_ROOMS_NUMBER: 100,
     getRandomInteger: getRandomInteger,
-    clientWidth: clientWidth
+    clientWidth: clientWidth,
+    onError: onError
   };
 })();

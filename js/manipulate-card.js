@@ -2,36 +2,43 @@
 
 (function () {
   var map = document.querySelector('.map');
-  var similarCardElement = map.querySelector('.map__pins');
+  var advertPinsContainer = map.querySelector('.map__pins');
 
-  var showPinCard = function (item) {
-    var mapPin = similarCardElement.querySelectorAll('.map__pin');
-    var mapCard = map.querySelectorAll('.map__card');
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      mapCard[i].classList.add('hidden');
-      if (item === mapPin[i + 1]) {
-        mapCard[i].classList.remove('hidden');
-      }
+  var onAdvertCardEscPress = function (evt) {
+    if (evt.key === window.utils.ESC_KEY) {
+      window.createElements.hideAdvertElementsOnMap('.map__card');
     }
+
+    map.removeEventListener('keydown', onAdvertCardEscPress);
   };
 
-  similarCardElement.addEventListener('click', function (evt) {
+  var showPinCard = function (item) {
+    var mapAllPins = advertPinsContainer.querySelectorAll('.map__pin');
+    var mapAdvertCards = map.querySelectorAll('.map__card');
+
+    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+      mapAdvertCards[i].classList.add('hidden');
+      if (item === mapAllPins[i + 1]) {
+        mapAdvertCards[i].classList.remove('hidden');
+      }
+    }
+
+    map.addEventListener('keydown', onAdvertCardEscPress);
+  };
+
+  advertPinsContainer.addEventListener('click', function (evt) {
     showPinCard(evt.target);
   });
 
   var closeCard = function () {
-    var cardClose = map.querySelectorAll('.popup__close');
+    var onCardsCloseButtonsClick = map.querySelectorAll('.popup__close');
+
     for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      cardClose[i].addEventListener('click', window.createElement.mapCardHidden);
+      onCardsCloseButtonsClick[i].addEventListener('click', function () {
+        window.createElements.hideAdvertElementsOnMap('.map__card');
+      });
     }
   };
 
-  closeCard();
-
-  map.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.ESC_KEYCODE) {
-      window.createElement.mapCardHidden();
-    }
-  });
-
+  setTimeout(closeCard, 1000);
 })();
