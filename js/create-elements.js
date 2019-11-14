@@ -53,9 +53,9 @@
   var hideAdvertElementsOnMap = function (elementClass) {
     var mapElementCards = map.querySelectorAll(elementClass);
 
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      mapElementCards[i].classList.add('hidden');
-    }
+    mapElementCards.forEach(function (item) {
+      item.classList.add('hidden');
+    });
   };
 
   var renderItem = function (item, itemStructureGenerator) {
