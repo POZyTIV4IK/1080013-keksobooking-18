@@ -36,7 +36,6 @@
   document.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ESC_KEYCODE) {
       hideSuccessAlert();
-      hideSuccessAlert();
     }
   });
 })();
