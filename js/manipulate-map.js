@@ -101,7 +101,8 @@
   mainPin.addEventListener('keydown', onMainPinEnterPress);
 
   window.manipulateMap = {
-    activatePageItem: activatePageItem
+    activatePageItem: activatePageItem,
+    defaultAddress: defaultAddress
   };
 
 })();

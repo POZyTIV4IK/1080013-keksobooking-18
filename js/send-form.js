@@ -13,8 +13,8 @@
     map.classList.add('map--faded');
     choiceForm.reset();
     choiceForm.classList.add('ad-form--disabled');
-    window.createElement.hideCardsOnMap();
-    window.createElement.hidePinsOnMap();
+    window.createElements.hideAdvertElementsOnMap('.map__pin-advert');
+    window.createElements.hideAdvertElementsOnMap('.map__card');
     mainPin.style.left = window.utils.DEFAULT_MAIN_PIN_X_ADDRESS;
     mainPin.style.top = window.utils.DEFAULT_MAIN_PIN_Y_ADDRESS;
     window.manipulateMap.defaultAddress();

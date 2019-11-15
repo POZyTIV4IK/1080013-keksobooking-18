@@ -6,15 +6,28 @@
       .querySelector('.error');
   var map = document.querySelector('.map');
   var clientWidth = map.clientWidth;
+  var errorAlert = errorTemplate.cloneNode(true);
 
   var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
   var onError = function () {
-    var errorAlert = errorTemplate.cloneNode(true);
     map.appendChild(errorAlert);
   };
+
+  var hideErrorAlert = function () {
+    if (document.querySelector('.error')) {
+      map.removeChild(errorAlert);
+    }
+  };
+
+  document.addEventListener('click', hideErrorAlert);
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === window.utils.ESC_KEYCODE) {
+      hideErrorAlert();
+    }
+  });
 
   window.utils = {
     PIN_SIZE: 40,
@@ -28,6 +41,8 @@
     ESC_KEY: 'Escape',
     ENTER_KEY: 'Enter',
     MAX_ROOMS_NUMBER: 100,
+    DEFAULT_MAIN_PIN_X_ADDRESS: '570px',
+    DEFAULT_MAIN_PIN_Y_ADDRESS: '375px',
     getRandomInteger: getRandomInteger,
     clientWidth: clientWidth,
     onError: onError
