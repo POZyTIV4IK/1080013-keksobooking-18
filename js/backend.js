@@ -3,7 +3,7 @@
 (function () {
   var SUCCESS_STATUS = 200;
   var TIMEOUT = 10000;
-  var xhrPrototype = function (onLoad, onError, xhr) {
+  var setupRequest = function (onLoad, onError, xhr) {
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS_STATUS) {
         onLoad(xhr.response);
@@ -24,7 +24,7 @@
   var save = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     var URL = 'https://js.dump.academy/keksobooking';
-    xhrPrototype(onLoad, onError, xhr);
+    setupRequest(onLoad, onError, xhr);
     xhr.open('POST', URL);
     xhr.send(data);
   };
@@ -41,7 +41,7 @@
 
   var load = function (onLoad, onError) {
     xhr.responseType = 'json';
-    xhrPrototype(onLoad, onError, xhr);
+    setupRequest(onLoad, onError, xhr);
   };
   window.backend = {
     save: save,

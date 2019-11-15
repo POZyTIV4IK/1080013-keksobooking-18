@@ -26,16 +26,16 @@
     window.backend.save(new FormData(choiceForm), successHandler, window.utils.onError);
   });
 
-  var hideSuccessAlert = function () {
+  var onContentClick = function () {
     if (document.querySelector('.success')) {
       map.removeChild(successAlert);
     }
   };
 
-  document.addEventListener('click', hideSuccessAlert);
+  document.addEventListener('click', onContentClick);
   document.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ESC_KEYCODE) {
-      hideSuccessAlert();
+      onContentClick();
     }
   });
 })();
