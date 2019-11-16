@@ -78,8 +78,12 @@
     hideAdvertElementsOnMap('.map__pin-advert');
   };
 
-  window.backend.load(renderAdvertCardsOnMap, window.utils.onError);
-  window.backend.load(renderAdvertPinsOnMap, window.utils.onError);
+  var onXhrLoadEnd = function (cards) {
+    renderAdvertPinsOnMap(cards);
+    renderAdvertCardsOnMap(cards);
+  };
+
+  window.backend.load(onXhrLoadEnd, window.utils.onError, window.utils.URL_TO_GET);
 
   window.createElements = {
     hideAdvertElementsOnMap: hideAdvertElementsOnMap
