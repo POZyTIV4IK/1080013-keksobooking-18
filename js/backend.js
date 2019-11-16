@@ -21,27 +21,20 @@
     xhr.timeout = TIMEOUT;
   };
 
-  var save = function (data, onLoad, onError) {
+  var save = function (data, onLoad, onError, url) {
     var xhr = new XMLHttpRequest();
-    var URL = 'https://js.dump.academy/keksobooking';
     setupRequest(onLoad, onError, xhr);
-    xhr.open('POST', URL);
+    xhr.open('POST', url);
     xhr.send(data);
   };
 
-  var URL = 'https://js.dump.academy/keksobooking/data';
-  var xhr = new XMLHttpRequest();
 
-  var loadRequest = function () {
-    xhr.open('GET', URL);
-    xhr.send();
-  };
-
-  loadRequest();
-
-  var load = function (onLoad, onError) {
+  var load = function (onLoad, onError, url) {
+    var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     setupRequest(onLoad, onError, xhr);
+    xhr.open('GET', url);
+    xhr.send();
   };
   window.backend = {
     save: save,

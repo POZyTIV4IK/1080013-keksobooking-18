@@ -30,6 +30,8 @@
   });
 
   window.utils = {
+    URL_TO_POST: 'https://js.dump.academy/keksobooking',
+    URL_TO_GET: 'https://js.dump.academy/keksobooking/data',
     PIN_SIZE: 40,
     PIN_NUMBER: 8,
     SCREEN_MIN_WIDTH: 1,

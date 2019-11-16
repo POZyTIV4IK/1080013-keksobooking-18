@@ -23,7 +23,7 @@
 
   choiceForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(choiceForm), successHandler, window.utils.onError);
+    window.backend.save(new FormData(choiceForm), successHandler, window.utils.onError, window.utils.URL_TO_POST);
   });
 
   var onContentClick = function () {
