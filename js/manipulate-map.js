@@ -23,7 +23,7 @@
   var activateMapPins = function () {
     var mapAdvertPins = map.querySelectorAll('.map__pin-advert');
 
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+    for (var i = 0; i < mapAdvertPins.length; i++) {
       mapAdvertPins[i].classList.remove('hidden');
     }
   };
@@ -102,7 +102,8 @@
 
   window.manipulateMap = {
     activatePageItem: activatePageItem,
-    defaultAddress: defaultAddress
+    defaultAddress: defaultAddress,
+    activateMapPins: activateMapPins
   };
 
 })();

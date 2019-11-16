@@ -59,7 +59,7 @@
   };
 
   var renderItem = function (item, itemStructureGenerator) {
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+    for (var i = 0; i < item.length; i++) {
       if (Object.entries(item[i].offer).length !== 0) {
         fragment.appendChild(itemStructureGenerator(item[i]));
       }
@@ -67,25 +67,20 @@
   };
 
   var renderAdvertCardsOnMap = function (cards) {
-    renderItem(cards, createAdvertCardStructure);
+    renderItem(cards.slice(0, 5), createAdvertCardStructure);
     map.insertBefore(fragment, filtersContainer);
     hideAdvertElementsOnMap('.map__card');
   };
 
   var renderAdvertPinsOnMap = function (cards) {
-    renderItem(cards, createAdvertPinStructure);
+    renderItem(cards.slice(0, 5), createAdvertPinStructure);
     advertPinsContainer.appendChild(fragment);
     hideAdvertElementsOnMap('.map__pin-advert');
   };
 
-  var onXhrLoadEnd = function (cards) {
-    renderAdvertPinsOnMap(cards);
-    renderAdvertCardsOnMap(cards);
-  };
-
-  window.backend.load(onXhrLoadEnd, window.utils.onError, window.utils.URL_TO_GET);
-
   window.createElements = {
-    hideAdvertElementsOnMap: hideAdvertElementsOnMap
+    hideAdvertElementsOnMap: hideAdvertElementsOnMap,
+    renderAdvertPinsOnMap: renderAdvertPinsOnMap,
+    renderAdvertCardsOnMap: renderAdvertCardsOnMap
   };
 })();
