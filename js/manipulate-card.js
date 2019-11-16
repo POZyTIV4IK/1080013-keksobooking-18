@@ -16,7 +16,7 @@
     var mapAllPins = advertPinsContainer.querySelectorAll('.map__pin');
     var mapAdvertCards = map.querySelectorAll('.map__card');
 
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+    for (var i = 0; i < mapAdvertCards.length; i++) {
       mapAdvertCards[i].classList.add('hidden');
       if (item === mapAllPins[i + 1]) {
         mapAdvertCards[i].classList.remove('hidden');
@@ -33,12 +33,14 @@
   var closeCard = function () {
     var onCardsCloseButtonsClick = map.querySelectorAll('.popup__close');
 
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
+    for (var i = 0; i < onCardsCloseButtonsClick.length; i++) {
       onCardsCloseButtonsClick[i].addEventListener('click', function () {
         window.createElements.hideAdvertElementsOnMap('.map__card');
       });
     }
   };
 
-  setTimeout(closeCard, 1000);
+  map.addEventListener('click', function () {
+    closeCard();
+  });
 })();

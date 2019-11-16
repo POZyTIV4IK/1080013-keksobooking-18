@@ -58,34 +58,29 @@
     });
   };
 
-  var renderItem = function (item, itemStructureGenerator) {
-    for (var i = 0; i < window.utils.PIN_NUMBER; i++) {
-      if (Object.entries(item[i].offer).length !== 0) {
-        fragment.appendChild(itemStructureGenerator(item[i]));
+  var renderItems = function (items, itemStructureGenerator) {
+    for (var i = 0; i < items.length; i++) {
+      if (Object.entries(items[i].offer).length !== 0) {
+        fragment.appendChild(itemStructureGenerator(items[i]));
       }
     }
   };
 
   var renderAdvertCardsOnMap = function (cards) {
-    renderItem(cards, createAdvertCardStructure);
+    renderItems(cards.slice(0, window.utils.MAX_PIN_NUMBER), createAdvertCardStructure);
     map.insertBefore(fragment, filtersContainer);
     hideAdvertElementsOnMap('.map__card');
   };
 
   var renderAdvertPinsOnMap = function (cards) {
-    renderItem(cards, createAdvertPinStructure);
+    renderItems(cards.slice(0, window.utils.MAX_PIN_NUMBER), createAdvertPinStructure);
     advertPinsContainer.appendChild(fragment);
     hideAdvertElementsOnMap('.map__pin-advert');
   };
 
-  var onXhrLoadEnd = function (cards) {
-    renderAdvertPinsOnMap(cards);
-    renderAdvertCardsOnMap(cards);
-  };
-
-  window.backend.load(onXhrLoadEnd, window.utils.onError, window.utils.URL_TO_GET);
-
   window.createElements = {
-    hideAdvertElementsOnMap: hideAdvertElementsOnMap
+    hideAdvertElementsOnMap: hideAdvertElementsOnMap,
+    renderAdvertPinsOnMap: renderAdvertPinsOnMap,
+    renderAdvertCardsOnMap: renderAdvertCardsOnMap
   };
 })();
