@@ -33,6 +33,7 @@
     URL_TO_POST: 'https://js.dump.academy/keksobooking',
     URL_TO_GET: 'https://js.dump.academy/keksobooking/data',
     PIN_SIZE: 40,
+    MAX_PIN_NUMBER: 5,
     SCREEN_MIN_WIDTH: 1,
     SCREEN_MIN_HEIGHT: 130,
     SCREEN_MAX_HEIGHT: 630,

@@ -58,22 +58,22 @@
     });
   };
 
-  var renderItem = function (item, itemStructureGenerator) {
-    for (var i = 0; i < item.length; i++) {
-      if (Object.entries(item[i].offer).length !== 0) {
-        fragment.appendChild(itemStructureGenerator(item[i]));
+  var renderItems = function (items, itemStructureGenerator) {
+    for (var i = 0; i < items.length; i++) {
+      if (Object.entries(items[i].offer).length !== 0) {
+        fragment.appendChild(itemStructureGenerator(items[i]));
       }
     }
   };
 
   var renderAdvertCardsOnMap = function (cards) {
-    renderItem(cards.slice(0, 5), createAdvertCardStructure);
+    renderItems(cards.slice(0, window.utils.MAX_PIN_NUMBER), createAdvertCardStructure);
     map.insertBefore(fragment, filtersContainer);
     hideAdvertElementsOnMap('.map__card');
   };
 
   var renderAdvertPinsOnMap = function (cards) {
-    renderItem(cards.slice(0, 5), createAdvertPinStructure);
+    renderItems(cards.slice(0, window.utils.MAX_PIN_NUMBER), createAdvertPinStructure);
     advertPinsContainer.appendChild(fragment);
     hideAdvertElementsOnMap('.map__pin-advert');
   };
