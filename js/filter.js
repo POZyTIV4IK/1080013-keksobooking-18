@@ -1,19 +1,53 @@
 'use strict';
 
 (function () {
+  var mapFilters = document.querySelector('.map__filters');
   var housingTypeFilter = document.querySelector('select[name="housing-type"]');
+  var housingPriceFilter = document.querySelector('select[name="housing-price"]');
+  // var housingRoomsNumberFilter = document.querySelector('select[name="housing-rooms"]');
+  // var housingGuestsNumberFilter = document.querySelector('select[name="housing-guests"]');
+  // var housingFeaturesFilter = document.querySelector('select[name="housing-features"]');
 
   var cards = [];
-  var newCards = [];
+  var newCardsbyType = [];
+  var newCardsbyPrice = [];
 
-  var updateRender = function (renderFunction, type) {
+  var updateRenderbyType = function (type) {
     if (type === 'any') {
-      newCards = cards;
+      newCardsbyType = cards;
     } else {
-      newCards = cards.filter(function (it) {
+      newCardsbyType = cards.filter(function (it) {
         return it.offer.type === type;
       });
     }
+    return newCardsbyType;
+  };
+
+  var updateRenderbyPrice = function () {
+    if (housingPriceFilter.selectedIndex === 0) {
+      newCardsbyPrice = cards;
+    } else if (housingPriceFilter.selectedIndex === 1) {
+      newCardsbyPrice = cards.filter(function (it) {
+        return it.offer.price >= 10000 && it.offer.price <= 50000;
+      });
+    } else if (housingPriceFilter.selectedIndex === 2) {
+      newCardsbyPrice = cards.filter(function (it) {
+        return it.offer.price < 10000;
+      });
+    } else if (housingPriceFilter.selectedIndex === 3) {
+      newCardsbyPrice = cards.filter(function (it) {
+        return it.offer.price > 50000;
+      });
+    }
+    return newCardsbyPrice;
+  };
+
+  var updateRender = function (renderFunction, type) {
+    updateRenderbyType(type);
+    updateRenderbyPrice();
+    var newCards = newCardsbyType.filter(function (it) {
+      return newCardsbyPrice.indexOf(it) !== -1;
+    });
     renderFunction(newCards);
   };
 
@@ -24,8 +58,12 @@
     }
   };
 
-  housingTypeFilter.addEventListener('change', function (evt) {
-    var type = evt.target.value;
+  mapFilters.addEventListener('change', function (evt) {
+    if (evt.target.id === 'housing-type') {
+      var type = evt.target.value;
+    } else {
+      type = housingTypeFilter.value;
+    }
     removePreviousRender('.map__card');
     removePreviousRender('.map__pin-advert');
     updateRender(window.createElements.renderAdvertPinsOnMap, type);
