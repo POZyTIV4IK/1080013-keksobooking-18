@@ -15,19 +15,6 @@
   var newCardsbyGuestsNumber = [];
   var newCardsbyFeatures = [];
 
-  var debounce = function (fun) {
-    var lastTimeout = null;
-    return function () {
-      var args = arguments;
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
-      }
-      lastTimeout = window.setTimeout(function () {
-        fun.apply(null, args);
-      }, window.utils.DEBOUNCE_INTERVAL);
-    };
-  };
-
   var updateRenderbyType = function (housingType) {
     if (housingType === window.utils.NULL_FEATURE) {
       newCardsbyType = cards;
@@ -121,19 +108,11 @@
     updateRenderbyRoomsNumber();
     updateRenderbyGuestsNumber();
     updateRenderbyFeatures(featuresType);
-    var newCardsLevel4 = newCardsbyGuestsNumber.filter(function (it) {
-      return newCardsbyFeatures.indexOf(it) !== -1;
+    var newCardsFiltered = newCardsbyType.filter(function (it) {
+      return newCardsbyPrice.indexOf(it) !== -1 && newCardsbyRoomsNumber.indexOf(it) !== -1
+      && newCardsbyGuestsNumber.indexOf(it) !== -1 && newCardsbyFeatures.indexOf(it) !== -1;
     });
-    var newCardsLevel3 = newCardsbyRoomsNumber.filter(function (it) {
-      return newCardsLevel4.indexOf(it) !== -1;
-    });
-    var newCardsLevel2 = newCardsbyPrice.filter(function (it) {
-      return newCardsLevel3.indexOf(it) !== -1;
-    });
-    var newCardsLevel1 = newCardsbyType.filter(function (it) {
-      return newCardsLevel2.indexOf(it) !== -1;
-    });
-    renderFunction(newCardsLevel1);
+    renderFunction(newCardsFiltered);
   };
 
   var removePreviousRender = function (className) {
@@ -143,7 +122,7 @@
     }
   };
 
-  var filterFormChanger = debounce(function (evt) {
+  var filterFormChanger = window.utils.debounce(function (evt) {
     var featuresType = [];
     var featuresCounter = 0;
     if (evt.target.id === 'housing-type') {
@@ -155,7 +134,7 @@
     for (var i = 0; i < allFeatures.length; i++) {
       if (allFeatures[i].checked) {
         featuresType.push(allFeatures[i].value);
-      } else if (allFeatures[i].checked === false) {
+      } else if (!allFeatures[i].checked) {
         featuresCounter++;
       }
     }

@@ -22,6 +22,19 @@
     }
   };
 
+  var debounce = function (fun) {
+    var lastTimeout = null;
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        fun.apply(null, args);
+      }, window.utils.DEBOUNCE_INTERVAL);
+    };
+  };
+
   document.addEventListener('click', hideErrorAlert);
   document.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ESC_KEYCODE) {
@@ -51,6 +64,7 @@
     URL_TO_GET: 'https://js.dump.academy/keksobooking/data',
     URL_TO_POST: 'https://js.dump.academy/keksobooking',
     clientWidth: clientWidth,
+    debounce: debounce,
     getRandomInteger: getRandomInteger,
     onError: onError
   };
