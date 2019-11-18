@@ -6,12 +6,7 @@
   var housingPriceFilter = mapFilters.querySelector('select[name="housing-price"]');
   var housingRoomsNumberFilter = mapFilters.querySelector('select[name="housing-rooms"]');
   var housingGuestsNumberFilter = mapFilters.querySelector('select[name="housing-guests"]');
-  var featureWifi = document.querySelector('#filter-wifi');
-  var featureDishwasher = document.querySelector('#filter-dishwasher');
-  var featureParking = document.querySelector('#filter-parking');
-  var featureWasher = document.querySelector('#filter-washer');
-  var featureElevator = document.querySelector('#filter-elevator');
-  var featureConditioner = document.querySelector('#filter-conditioner');
+  var allFeatures = mapFilters.querySelectorAll('.map__checkbox');
 
   var cards = [];
   var newCardsbyType = [];
@@ -20,22 +15,21 @@
   var newCardsbyGuestsNumber = [];
   var newCardsbyFeatures = [];
 
-  var updateRenderbyFeatures = function (featuresType) {
-    if (featuresType === 'any') {
-      newCardsbyFeatures = cards;
-    } else {
-      newCardsbyFeatures = cards.filter(function (it) {
-        var a = it.offer.features;
-        console.log(featuresType.includes(a));
-        return featuresType.includes(a);
-      });
-    }
-    console.log(newCardsbyFeatures);
-    return newCardsbyFeatures;
+  var debounce = function (fun) {
+    var lastTimeout = null;
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        fun.apply(null, args);
+      }, window.utils.DEBOUNCE_INTERVAL);
+    };
   };
 
   var updateRenderbyType = function (housingType) {
-    if (housingType === 'any') {
+    if (housingType === window.utils.NULL_FEATURE) {
       newCardsbyType = cards;
     } else {
       newCardsbyType = cards.filter(function (it) {
@@ -50,15 +44,15 @@
       newCardsbyPrice = cards;
     } else if (housingPriceFilter.selectedIndex === 1) {
       newCardsbyPrice = cards.filter(function (it) {
-        return it.offer.price >= 10000 && it.offer.price <= 50000;
+        return it.offer.price >= window.utils.LOWEST_PRICE && it.offer.price <= window.utils.HIGHEST_PRICE;
       });
     } else if (housingPriceFilter.selectedIndex === 2) {
       newCardsbyPrice = cards.filter(function (it) {
-        return it.offer.price < 10000;
+        return it.offer.price < window.utils.LOWEST_PRICE;
       });
     } else if (housingPriceFilter.selectedIndex === 3) {
       newCardsbyPrice = cards.filter(function (it) {
-        return it.offer.price > 50000;
+        return it.offer.price > window.utils.HIGHEST_PRICE;
       });
     }
     return newCardsbyPrice;
@@ -102,6 +96,25 @@
     return newCardsbyGuestsNumber;
   };
 
+  var updateRenderbyFeatures = function (featuresType) {
+    if (featuresType === window.utils.NULL_FEATURE) {
+      newCardsbyFeatures = cards;
+    } else {
+      var arrayContainsArray = function (firstArray, secondArray) {
+        if (secondArray.length === 0) {
+          return false;
+        }
+        return secondArray.every(function (value) {
+          return (firstArray.indexOf(value) >= 0);
+        });
+      };
+      newCardsbyFeatures = cards.filter(function (it) {
+        return arrayContainsArray(it.offer.features, featuresType);
+      });
+    }
+    return newCardsbyFeatures;
+  };
+
   var updateRender = function (renderFunction, housingType, featuresType) {
     updateRenderbyType(housingType);
     updateRenderbyPrice();
@@ -130,42 +143,27 @@
     }
   };
 
-  mapFilters.addEventListener('change', function (evt) {
+  var filterFormChanger = debounce(function (evt) {
     var featuresType = [];
+    var featuresCounter = 0;
     if (evt.target.id === 'housing-type') {
       var housingType = evt.target.value;
     } else {
       housingType = housingTypeFilter.value;
     }
-    // if (evt.target.name === 'features') {
-    //   if (evt.target.checked) {
-    //     array += array;
-    //     console.log(array);
-    //     featuresType = array;
-    //   } else {
-    //     featuresType = 'any';
-    //   }
-    // }
-    if (featureWifi.checked) {
-      featuresType.push(featureWifi.value);
-    }
-    if (featureDishwasher.checked) {
-      featuresType.push(featureDishwasher.value);
-    }
-    if (featureParking.checked) {
-      featuresType.push(featureParking.value);
-    }
-    if (featureWasher.checked) {
-      featuresType.push(featureWasher.value);
-    }
-    if (featureElevator.checked) {
-      featuresType.push(featureElevator.value);
-    }
-    if (featureConditioner.checked) {
-      featuresType.push(featureConditioner.value);
+
+    for (var i = 0; i < allFeatures.length; i++) {
+      if (allFeatures[i].checked) {
+        featuresType.push(allFeatures[i].value);
+      } else if (allFeatures[i].checked === false) {
+        featuresCounter++;
+      }
     }
 
-    console.log(featuresType);
+    if (featuresCounter === window.utils.MAX_FEATURES_NUMBER) {
+      featuresType = window.utils.NULL_FEATURE;
+    }
+
     removePreviousRender('.map__card');
     removePreviousRender('.map__pin-advert');
     updateRender(window.createElements.renderAdvertPinsOnMap, housingType, featuresType);
@@ -173,14 +171,18 @@
     window.manipulateMap.activateMapPins();
   });
 
+  mapFilters.addEventListener('change', function (evt) {
+    filterFormChanger(evt);
+  });
+
   var renderFilteredPinsOnMap = function (data) {
     cards = data;
-    updateRender(window.createElements.renderAdvertPinsOnMap, 'any', 'any');
+    updateRender(window.createElements.renderAdvertPinsOnMap, window.utils.NULL_FEATURE, window.utils.NULL_FEATURE);
   };
 
   var renderFilteredCardsOnMap = function (data) {
     cards = data;
-    updateRender(window.createElements.renderAdvertCardsOnMap, 'any', 'any');
+    updateRender(window.createElements.renderAdvertCardsOnMap, window.utils.NULL_FEATURE, window.utils.NULL_FEATURE);
   };
 
   var onXhrLoadEnd = function (data) {
