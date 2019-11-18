@@ -19,6 +19,17 @@
     2: 1,
     3: 0
   };
+  var priceMapping = {
+    1: function (type) {
+      return type >= window.utils.LOWEST_PRICE && type <= window.utils.HIGHEST_PRICE;
+    },
+    2: function (type) {
+      return type < window.utils.LOWEST_PRICE;
+    },
+    3: function (type) {
+      return type > window.utils.HIGHEST_PRICE;
+    }
+  };
 
   var updateRenderbyType = function (housingType) {
     if (housingType === window.utils.NULL_FEATURE) {
@@ -32,26 +43,20 @@
   };
 
   var updateRenderbyPrice = function () {
-    if (housingPriceFilter.selectedIndex === 0) {
-      newCardsbyPrice = cards;
-    } else if (housingPriceFilter.selectedIndex === 1) {
-      newCardsbyPrice = cards.filter(function (it) {
-        return it.offer.price >= window.utils.LOWEST_PRICE && it.offer.price <= window.utils.HIGHEST_PRICE;
-      });
-    } else if (housingPriceFilter.selectedIndex === 2) {
-      newCardsbyPrice = cards.filter(function (it) {
-        return it.offer.price < window.utils.LOWEST_PRICE;
-      });
-    } else if (housingPriceFilter.selectedIndex === 3) {
-      newCardsbyPrice = cards.filter(function (it) {
-        return it.offer.price > window.utils.HIGHEST_PRICE;
-      });
+    for (var i = 1; i < window.utils.MAX_CHOICES_NUMBER; i++) {
+      if (housingPriceFilter.selectedIndex === 0) {
+        newCardsbyPrice = cards;
+      } else if (housingPriceFilter.selectedIndex === i) {
+        newCardsbyPrice = cards.filter(function (it) {
+          return priceMapping[i](it.offer.price);
+        });
+      }
     }
     return newCardsbyPrice;
   };
 
   var updateRenderbyRoomsNumber = function () {
-    for (var i = 1; i < window.utils.HOUSING_ROOMS_NUMBER_CHOICES; i++) {
+    for (var i = 1; i < window.utils.MAX_CHOICES_NUMBER; i++) {
       if (housingRoomsNumberFilter.selectedIndex === 0) {
         newCardsbyRoomsNumber = cards;
       } else if (housingRoomsNumberFilter.selectedIndex === i) {
@@ -64,7 +69,7 @@
   };
 
   var updateRenderbyGuestsNumber = function () {
-    for (var i = 1; i < window.utils.HOUSING_ROOMS_NUMBER_CHOICES; i++) {
+    for (var i = 1; i < window.utils.MAX_CHOICES_NUMBER; i++) {
       if (housingGuestsNumberFilter.selectedIndex === 0) {
         newCardsbyGuestsNumber = cards;
       } else if (housingGuestsNumberFilter.selectedIndex === i) {
