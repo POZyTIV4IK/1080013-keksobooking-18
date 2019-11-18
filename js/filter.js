@@ -46,20 +46,14 @@
   };
 
   var updateRenderbyRoomsNumber = function () {
-    if (housingRoomsNumberFilter.selectedIndex === 0) {
-      newCardsbyRoomsNumber = cards;
-    } else if (housingRoomsNumberFilter.selectedIndex === 1) {
-      newCardsbyRoomsNumber = cards.filter(function (it) {
-        return it.offer.rooms === 1;
-      });
-    } else if (housingRoomsNumberFilter.selectedIndex === 2) {
-      newCardsbyRoomsNumber = cards.filter(function (it) {
-        return it.offer.rooms === 2;
-      });
-    } else if (housingRoomsNumberFilter.selectedIndex === 3) {
-      newCardsbyRoomsNumber = cards.filter(function (it) {
-        return it.offer.rooms === 3;
-      });
+    for (var i = 1; i < window.utils.HOUSING_ROOMS_NUMBER_CHOICES; i++) {
+      if (housingRoomsNumberFilter.selectedIndex === 0) {
+        newCardsbyRoomsNumber = cards;
+      } else if (housingRoomsNumberFilter.selectedIndex === i) {
+        newCardsbyRoomsNumber = cards.filter(function (it) {
+          return it.offer.rooms === i;
+        });
+      }
     }
     return newCardsbyRoomsNumber;
   };
