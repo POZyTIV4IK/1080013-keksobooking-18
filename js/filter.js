@@ -14,6 +14,11 @@
   var newCardsbyRoomsNumber = [];
   var newCardsbyGuestsNumber = [];
   var newCardsbyFeatures = [];
+  var guestsMapping = {
+    1: 2,
+    2: 1,
+    3: 0
+  };
 
   var updateRenderbyType = function (housingType) {
     if (housingType === window.utils.NULL_FEATURE) {
@@ -59,20 +64,14 @@
   };
 
   var updateRenderbyGuestsNumber = function () {
-    if (housingGuestsNumberFilter.selectedIndex === 0) {
-      newCardsbyGuestsNumber = cards;
-    } else if (housingGuestsNumberFilter.selectedIndex === 1) {
-      newCardsbyGuestsNumber = cards.filter(function (it) {
-        return it.offer.guests === 2;
-      });
-    } else if (housingGuestsNumberFilter.selectedIndex === 2) {
-      newCardsbyGuestsNumber = cards.filter(function (it) {
-        return it.offer.guests === 1;
-      });
-    } else if (housingGuestsNumberFilter.selectedIndex === 3) {
-      newCardsbyGuestsNumber = cards.filter(function (it) {
-        return it.offer.guests === 0;
-      });
+    for (var i = 1; i < window.utils.HOUSING_ROOMS_NUMBER_CHOICES; i++) {
+      if (housingGuestsNumberFilter.selectedIndex === 0) {
+        newCardsbyGuestsNumber = cards;
+      } else if (housingGuestsNumberFilter.selectedIndex === i) {
+        newCardsbyGuestsNumber = cards.filter(function (it) {
+          return it.offer.guests === guestsMapping[housingGuestsNumberFilter.selectedIndex];
+        });
+      }
     }
     return newCardsbyGuestsNumber;
   };
