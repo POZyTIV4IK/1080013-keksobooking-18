@@ -106,18 +106,18 @@
     updateRenderbyRoomsNumber();
     updateRenderbyGuestsNumber();
     updateRenderbyFeatures(featuresType);
-    var newCardsFiltered = newCardsbyType.filter(function (it) {
+    var filterNewCards = newCardsbyType.filter(function (it) {
       return newCardsbyPrice.indexOf(it) !== -1 && newCardsbyRoomsNumber.indexOf(it) !== -1
       && newCardsbyGuestsNumber.indexOf(it) !== -1 && newCardsbyFeatures.indexOf(it) !== -1;
     });
-    renderFunction(newCardsFiltered);
+    renderFunction(filterNewCards);
   };
 
   var removePreviousRender = function (className) {
-    var element = document.querySelectorAll(className);
-    for (var i = 0; i < element.length; i++) {
-      element[i].parentNode.removeChild(element[i]);
-    }
+    var elements = document.querySelectorAll(className);
+    elements.forEach(function (element) {
+      element.parentNode.removeChild(element);
+    });
   };
 
   var filterFormChanger = window.utils.debounce(function (evt) {
@@ -129,13 +129,13 @@
       housingType = housingTypeFilter.value;
     }
 
-    for (var i = 0; i < allFeatures.length; i++) {
-      if (allFeatures[i].checked) {
-        featuresType.push(allFeatures[i].value);
-      } else if (!allFeatures[i].checked) {
+    allFeatures.forEach(function (feature) {
+      if (feature.checked) {
+        featuresType.push(feature.value);
+      } else if (!feature.checked) {
         featuresCounter++;
       }
-    }
+    });
 
     if (featuresCounter === window.utils.MAX_FEATURES_NUMBER) {
       featuresType = window.utils.NULL_FEATURE;
@@ -168,4 +168,8 @@
   };
 
   window.backend.load(onXhrLoadEnd, window.utils.onError, window.utils.URL_TO_GET);
+
+  window.filter = {
+    updateRender: updateRender
+  };
 })();

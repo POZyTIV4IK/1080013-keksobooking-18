@@ -8,34 +8,34 @@
   var addressInput = choiceForm.querySelector('input[name="address"]');
   var mainPin = advertPinsContainer.querySelector('.map__pin--main');
 
-  var disablePageItem = function (input) {
-    for (var i = 0; i < input.length; i++) {
-      input[i].setAttribute('disabled', '');
-    }
+  var disablePageItem = function (inputs) {
+    inputs.forEach(function (input) {
+      input.setAttribute('disabled', '');
+    });
   };
 
-  var activatePageItem = function (input) {
-    for (var i = 0; i < input.length; i++) {
-      input[i].removeAttribute('disabled');
-    }
+  var activatePageItem = function (inputs) {
+    inputs.forEach(function (input) {
+      input.removeAttribute('disabled');
+    });
   };
 
   var activateMapPins = function () {
     var mapAdvertPins = map.querySelectorAll('.map__pin-advert');
 
-    for (var i = 0; i < mapAdvertPins.length; i++) {
-      mapAdvertPins[i].classList.remove('hidden');
-    }
+    mapAdvertPins.forEach(function (item) {
+      item.classList.remove('hidden');
+    });
   };
 
   disablePageItem(allFieldsets);
 
   var mainPinHalfWidth = Math.round((mainPin.clientWidth / 2));
-  var defaultAddress = function () {
+  var setMainPinToDefaultAddress = function () {
     addressInput.value = parseInt(mainPin.style.left, 10) + mainPinHalfWidth + ', ' + parseInt(mainPin.style.top, 10);
   };
 
-  defaultAddress();
+  setMainPinToDefaultAddress();
 
   var activateMap = function () {
     map.classList.remove('map--faded');
@@ -102,7 +102,7 @@
 
   window.manipulateMap = {
     activatePageItem: activatePageItem,
-    defaultAddress: defaultAddress,
+    setMainPinToDefaultAddress: setMainPinToDefaultAddress,
     activateMapPins: activateMapPins
   };
 

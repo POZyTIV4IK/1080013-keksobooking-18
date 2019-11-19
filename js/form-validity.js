@@ -43,17 +43,17 @@
 
   apartmentSelect.addEventListener('change', function (evt) {
     if (evt.target.value === 'bungalo') {
-      priceInput.placeholder = '0';
-      priceInput.min = '0';
+      priceInput.placeholder = window.utils.MIN_BUNGALO_PRICE;
+      priceInput.min = window.utils.MIN_BUNGALO_PRICE;
     } else if (evt.target.value === 'flat') {
-      priceInput.placeholder = '1000';
-      priceInput.min = '1000';
+      priceInput.placeholder = window.utils.MIN_FLAT_PRICE;
+      priceInput.min = window.utils.MIN_FLAT_PRICE;
     } else if (evt.target.value === 'house') {
-      priceInput.placeholder = '5000';
-      priceInput.min = '5000';
+      priceInput.placeholder = window.utils.MIN_HOUSE_PRICE;
+      priceInput.min = window.utils.MIN_HOUSE_PRICE;
     } else if (evt.target.value === 'palace') {
-      priceInput.placeholder = '10000';
-      priceInput.min = '10000';
+      priceInput.placeholder = window.utils.MIN_PALACE_PRICE;
+      priceInput.min = window.utils.MIN_PALACE_PRICE;
     }
   });
 

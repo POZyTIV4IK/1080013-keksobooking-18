@@ -16,7 +16,7 @@
     map.appendChild(errorAlert);
   };
 
-  var hideErrorAlert = function () {
+  var onErrorAlertHide = function () {
     if (document.querySelector('.error')) {
       map.removeChild(errorAlert);
     }
@@ -35,10 +35,10 @@
     };
   };
 
-  document.addEventListener('click', hideErrorAlert);
+  document.addEventListener('click', onErrorAlertHide);
   document.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ESC_KEYCODE) {
-      hideErrorAlert();
+      onErrorAlertHide();
     }
   });
 
@@ -57,6 +57,10 @@
     MAX_PRICE: 3000,
     MAX_ROOMS: 10,
     MAX_ROOMS_NUMBER: 100,
+    MIN_BUNGALO_PRICE: '0',
+    MIN_FLAT_PRICE: '1000',
+    MIN_HOUSE_PRICE: '5000',
+    MIN_PALACE_PRICE: '10000',
     NULL_FEATURE: 'any',
     PIN_SIZE: 40,
     SCREEN_MAX_HEIGHT: 630,
